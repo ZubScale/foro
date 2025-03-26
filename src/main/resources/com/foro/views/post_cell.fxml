@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.foro.controllers.PostCell" spacing="5">
+    <Label fx:id="titleLabel" styleClass="post-title" />
+    <Label fx:id="authorLabel" styleClass="post-author" />
+    <Label fx:id="dateLabel" styleClass="post-date" />
+</VBox>

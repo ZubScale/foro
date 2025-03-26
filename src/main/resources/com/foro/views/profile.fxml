@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.foro.controllers.ProfileController"
+      spacing="20" styleClass="profile-container">
+
+    <Button text="Volver al foro" styleClass="secondary-button" onAction="#handleBackToForum"/>
+
+    <HBox spacing="20" alignment="TOP_LEFT">
+        <VBox styleClass="profile-info">
+            <Label fx:id="usernameLabel" styleClass="profile-username"/>
+            <Separator/>
+            <HBox spacing="20">
+                <VBox spacing="5" alignment="CENTER">
+                    <Label fx:id="postCountLabel" styleClass="profile-stat"/>
+                    <Label text="Publicaciones" styleClass="profile-stat-label"/>
+                </VBox>
+
+                <VBox spacing="5" alignment="CENTER">
+                    <Label fx:id="commentCountLabel" styleClass="profile-stat"/>
+                    <Label text="Comentarios" styleClass="profile-stat-label"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

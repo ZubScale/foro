@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.foro.controllers.RegisterController"
+      alignment="CENTER" spacing="20" styleClass="register-container">
+
+    <Text text="Registro de Usuario" styleClass="register-title"/>
+
+    <VBox styleClass="form-container" spacing="15">
+        <TextField fx:id="usernameField" promptText="Nombre de usuario*" styleClass="form-field"/>
+        <PasswordField fx:id="passwordField" promptText="Contraseña*" styleClass="form-field"/>
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirmar contraseña*" styleClass="form-field"/>
+        <TextField fx:id="emailField" promptText="Email*" styleClass="form-field"/>
+        <TextField fx:id="fullNameField" promptText="Nombre completo" styleClass="form-field"/>
+        <DatePicker fx:id="birthDatePicker" promptText="Fecha de nacimiento*" styleClass="form-field"/>
+
+        <Button text="Registrarse" onAction="#handleRegister" styleClass="primary-button"/>
+
+        <HBox alignment="CENTER" spacing="5">
+            <Text text="¿Ya tienes una cuenta?"/>
+            <Button text="Iniciar sesión" styleClass="text-button" onAction="#handleBackToLogin"/>
+        </HBox>
+    </VBox>
+</VBox>

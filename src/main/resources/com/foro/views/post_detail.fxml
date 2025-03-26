@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.foro.controllers.PostDetailController"
+      spacing="20" styleClass="post-detail-container">
+
+    <Button text="Volver al foro" styleClass="secondary-button" onAction="#handleBackToForum"/>
+
+    <VBox styleClass="post-container" spacing="10">
+        <Label fx:id="titleLabel" styleClass="post-detail-title"/>
+        <HBox spacing="10">
+            <Label fx:id="authorLabel" styleClass="post-detail-author"/>
+            <Label fx:id="dateLabel" styleClass="post-detail-date"/>
+        </HBox>
+        <Label fx:id="contentLabel" styleClass="post-detail-content" wrapText="true"/>
+    </VBox>
+
+    <VBox styleClass="comments-section" spacing="10">
+        <Text text="Comentarios" styleClass="section-title"/>
+
+        <TextArea fx:id="commentArea" promptText="Escribe tu comentario..." styleClass="comment-field"/>
+        <Button text="Agregar comentario" onAction="#handleAddComment" styleClass="primary-button"/>
+
+        <ListView fx:id="commentsListView" styleClass="comments-list">
+            <!-- Aquí se debe establecer la fábrica de celdas en el controlador -->
+        </ListView>
+    </VBox>
+</VBox>

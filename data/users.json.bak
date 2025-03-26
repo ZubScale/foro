@@ -1,0 +1,10 @@
+[ {
+  "id" : "21ae7cdc-1211-41a4-85e2-5ab37f481151",
+  "username" : "admin",
+  "passwordHash" : "$2a$12$eqVJC1yNplTw9LaUHP1IiO4feCOBiEWqF2sMm8k/s2HUlMaNein0y",
+  "email" : "admin@foro.com",
+  "fullName" : "System Administrator",
+  "birthDate" : null,
+  "bio" : null,
+  "avatarUrl" : null,
+  "joinDate"

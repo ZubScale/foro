@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.foro.controllers.ForumController"
+      spacing="20" styleClass="forum-container">
+
+    <HBox styleClass="header">
+        <Text text="Foro " styleClass="header-title"/>
+        <HBox spacing="10" HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+            <Button text="Nuevo Post" styleClass="primary-button" onAction="#handleCreatePost"/>
+            <Button text="Mi Perfil" styleClass="secondary-button" onAction="#handleViewProfile"/>
+            <Button text="Cerrar Sesión" styleClass="danger-button" onAction="#handleLogout"/>
+        </HBox>
+    </HBox>
+
+    <VBox styleClass="post-form" spacing="10">
+        <TextField fx:id="postTitleField" promptText="Título del post" styleClass="form-field"/>
+        <TextArea fx:id="postContentArea" promptText="Escribe tu publicación aquí..." styleClass="form-textarea"/>
+        <Button text="Publicar" onAction="#handleCreatePost" styleClass="primary-button"/>
+    </VBox>
+
+    <ListView fx:id="postsListView" styleClass="posts-list" onMouseClicked="#handlePostSelected">
+        <!-- Aquí se debe establecer la fábrica de celdas en el controlador -->
+    </ListView>
+</VBox>
