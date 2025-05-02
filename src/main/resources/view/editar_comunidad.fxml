@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.EditarComunidadController"
+            stylesheets="@/view/css/styles.css">
+
+    <VBox styleClass="form-container" spacing="20" padding="30">
+        <Text styleClass="header" text="Editar Comunidad"/>
+
+        <GridPane hgap="15" vgap="15">
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtNombre"
+                       styleClass="input-field"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+            <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextArea fx:id="taDescripcion"
+                      styleClass="input-field"
+                      wrapText="true"
+                      prefRowCount="3"
+                      GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Reglas:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextArea fx:id="taReglas"
+                      styleClass="input-field"
+                      wrapText="true"
+                      prefRowCount="5"
+                      GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <ComboBox fx:id="cbCategorias"
+                      styleClass="input-field"
+                      GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        </GridPane>
+
+        <HBox styleClass="button-bar" spacing="15">
+            <Button text="Guardar Cambios"
+                    styleClass="primary-button"
+                    onAction="#guardarCambiosComunidad"/>
+
+            <Button text="Cancelar"
+                    styleClass="secondary-button"
+                    onAction="#cancelarEdicion"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

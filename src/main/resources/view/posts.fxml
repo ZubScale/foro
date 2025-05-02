@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.PostController"
+            stylesheets="@/view/css/styles.css">
+
+    <VBox styleClass="form-container" spacing="15" padding="30">
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <Text styleClass="header" text="Todos los Posts"/>
+            <ComboBox fx:id="cbFiltros" styleClass="input-field" promptText="Filtrar por..."/>
+        </HBox>
+
+        <VBox fx:id="containerPosts" spacing="20">
+            <!-- Posts dinámicos con formato de tarjeta -->
+        </VBox>
+    </VBox>
+</ScrollPane>

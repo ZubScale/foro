@@ -1,0 +1,9 @@
+[
+  {
+    "id": "a1b2c3d4",
+    "title": "Bienvenido al Foro",
+    "content": "Este es un post de ejemplo...",
+    "authorId": "admin",
+    "creationDate": "2023-08-20T10:00:00"
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "post-001",
+    "usuario": "user-001",
+    "contenido": "¿Cómo usar streams en Java?",
+    "fecha": "2023-07-20T14:00:00",
+    "calificaciones": ["tipo-calif-001"],
+    "tags": ["tag-001"],
+    "comunidad": "com-001"
+  }
+]

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.ComunidadController"
+            stylesheets="@/view/css/styles.css">
+
+    <top>
+        <HBox styleClass="form-container" spacing="15" alignment="CENTER_LEFT" padding="20">
+            <Text styleClass="header" text="Nombre Comunidad"/>
+            <Button text="Unirse" styleClass="primary-button"/>
+            <Button text="Crear Post"
+                    styleClass="secondary-button"
+                    onAction="#mostrarCrearPost"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" padding="20">
+            <TableView fx:id="tblPosts" styleClass="table-view">
+                <columns>
+                    <TableColumn text="Título" prefWidth="200"/>
+                    <TableColumn text="Autor" prefWidth="150"/>
+                    <TableColumn text="Votos" prefWidth="80"/>
+                </columns>
+            </TableView>
+
+            <ListView fx:id="lstTemas"
+                      styleClass="list-view"
+                      prefHeight="150"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="button-bar" padding="20" alignment="CENTER_RIGHT">
+            <Button text="Editar Comunidad"
+                    styleClass="secondary-button"
+                    onAction="#editarComunidad"/>
+            <Button text="Volver"
+                    styleClass="secondary-button"
+                    onAction="#volverAComunidades"/>
+        </HBox>
+    </bottom>
+</BorderPane>

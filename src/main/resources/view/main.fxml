@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.MainController"
+            stylesheets="@/view/css/styles.css">
+
+    <top>
+        <HBox styleClass="header-bar" spacing="20" alignment="CENTER"
+              padding="10" style="-fx-background-color: #4A90E2;">
+            <Label text="ForoApp" style="-fx-text-fill: white; -fx-font-size: 20px;"/>
+            <Button text="Inicio" styleClass="nav-button"/>
+            <Button text="Mis Comunidades" styleClass="nav-button"/>
+            <Button text="Notificaciones" styleClass="nav-button" onAction="#redirectToNotificaciones"/>
+            <Button text="Mensajes" styleClass="nav-button" onAction="#redirectToMensajes"/>
+            <Button text="Perfil" styleClass="nav-button" onAction="#redirectToPerfil"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Feed Principal">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="15" padding="20">
+                        <!-- Posts dinámicos se inyectarán aquí -->
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab text="Tendencias">
+                <ListView fx:id="lvTendencias" styleClass="list-view"/>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <bottom>
+        <HBox styleClass="footer-bar" alignment="CENTER" padding="10"
+              style="-fx-background-color: #2C3E50;">
+            <Label text="© 2024 ForoApp" style="-fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

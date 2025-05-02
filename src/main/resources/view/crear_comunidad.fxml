@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forum.controller.CrearComunidadController"
+      styleClass="form-container"
+      spacing="20"
+      stylesheets="@/view/css/styles.css"
+      padding="30">
+
+    <Text styleClass="header" text="Crear Nueva Comunidad"/>
+
+    <TextField fx:id="txtNombre"
+               styleClass="input-field"
+               promptText="Nombre de la comunidad"/>
+
+    <TextArea fx:id="taDescripcion"
+              styleClass="input-field"
+              promptText="Descripción"
+              prefRowCount="3"/>
+
+    <TextArea fx:id="taReglas"
+              styleClass="input-field"
+              promptText="Reglas de la comunidad"
+              prefRowCount="5"/>
+
+    <HBox spacing="15">
+        <ComboBox fx:id="cbCategoria"
+                  styleClass="input-field"
+                  promptText="Seleccionar categoría"/>
+
+        <ComboBox fx:id="cbPrivacidad"
+                  styleClass="input-field"
+                  promptText="Privacidad"/>
+    </HBox>
+
+    <Button text="Crear Comunidad"
+            styleClass="primary-button"
+            onAction="#crearComunidad"/>
+</VBox>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.PostController"
+            stylesheets="@/view/css/styles.css">
+
+    <VBox spacing="20" padding="30">
+        <!-- Cabecera del post -->
+        <VBox spacing="5">
+            <Text styleClass="header" fx:id="Titulo"/>
+            <HBox spacing="10">
+                <Label fx:id="lblAutor" text="Autor: "/>
+                <Label fx:id="lblFecha" text="Fecha: "/>
+                <Label fx:id="lblVotos" text="Votos: "/>
+            </HBox>
+        </VBox>
+
+        <!-- Contenido principal -->
+        <TextArea styleClass="input-field" fx:id="txtContenidoPost"
+                  wrapText="true" editable="false" prefHeight="200"/>
+
+        <!-- Sistema de votación -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="↑" styleClass="voto-button" onAction="#votarPositivo"/>
+            <Label fx:id="lblContadorVotos" text="+0"/>
+            <Button text="↓" styleClass="voto-button" onAction="#votarNegativo"/>
+        </HBox>
+
+        <!-- Sección de comentarios -->
+        <VBox spacing="10">
+            <Text text="Comentarios" styleClass="subheader"/>
+            <ListView fx:id="lstComentarios" styleClass="list-view" prefHeight="300"/>
+            <TextArea fx:id="txtNuevoComentario" promptText="Escribe tu comentario..."
+                      styleClass="input-field" wrapText="true"/>
+            <Button text="Enviar Comentario" styleClass="primary-button" onAction="#agregarComentario"/>
+        </VBox>
+    </VBox>
+</ScrollPane>

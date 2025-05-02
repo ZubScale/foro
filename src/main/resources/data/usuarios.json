@@ -1,0 +1,9 @@
+[
+  {
+    "id": "user-001",
+    "nombre": "dev_juan",
+    "email": "juan@example.com",
+    "comunidades": ["com-001"],
+    "seguidores": ["user-002"]
+  }
+]

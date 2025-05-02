@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forum.controller.PostController"
+      styleClass="form-container" spacing="20"
+      stylesheets="@/view/css/styles.css" padding="30">
+
+    <Text styleClass="header" text="Editar Post"/>
+
+    <TextField fx:id="txtTitulo" styleClass="input-field" promptText="Título"/>
+
+    <TextArea fx:id="txtContenido" styleClass="input-field"
+              wrapText="true" prefRowCount="10"/>
+
+    <VBox spacing="10">
+        <Label text="Etiquetas:"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ListView fx:id="lvTagsDisponibles" styleClass="list-view"
+                      prefWidth="200" prefHeight="100"/>
+            <VBox spacing="5">
+                <Button text="Añadir →" styleClass="secondary-button"
+                        onAction="#agregarTag"/>
+                <Button text="← Quitar" styleClass="secondary-button"
+                        onAction="#quitarTag"/>
+            </VBox>
+            <ListView fx:id="lvTagsSeleccionados" styleClass="list-view"
+                      prefWidth="200" prefHeight="100"/>
+        </HBox>
+    </VBox>
+
+    <HBox styleClass="button-bar" spacing="15">
+        <Button text="Guardar Cambios" styleClass="primary-button"
+                onAction="#guardarPostEditado"/>
+        <Button text="Cancelar" styleClass="secondary-button"
+                onAction="#cancelarEdicionPost"/>
+    </HBox>
+</VBox>

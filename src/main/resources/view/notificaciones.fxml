@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forum.controller.NotificacionesController"
+      spacing="15" styleClass="form-container"
+      stylesheets="@/view/css/styles.css">
+
+    <Text styleClass="header" text="Notificaciones"/>
+
+    <TableView fx:id="tblNotificaciones" styleClass="table-view">
+        <columns>
+            <TableColumn text="Fecha" prefWidth="120"/>
+            <TableColumn text="Mensaje" prefWidth="400"/>
+            <TableColumn text="Estado" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <HBox styleClass="button-bar">
+        <Button text="Marcar como Leído" styleClass="primary-button"/>
+        <Button text="Volver" styleClass="secondary-button" onAction="#volverAlMain"/>
+    </HBox>
+</VBox>

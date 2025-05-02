@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forum.controller.MensajesController"
+            stylesheets="@/view/css/styles.css">
+
+    <left>
+        <VBox styleClass="form-container" spacing="15" prefWidth="300">
+            <Text styleClass="header" text="Conversaciones"/>
+            <ListView fx:id="lvConversaciones" styleClass="list-view"
+                      prefHeight="500"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="15" padding="30">
+            <Text styleClass="header" text="Mensajes"/>
+
+            <ScrollPane fitToWidth="true">
+                <ListView fx:id="lvMensajes" styleClass="list-view"
+                          prefHeight="400"/>
+            </ScrollPane>
+
+            <HBox spacing="10">
+                <TextArea fx:id="taNuevoMensaje" styleClass="input-field"
+                          wrapText="true" prefRowCount="3"
+                          promptText="Escribe tu mensaje..."
+                          prefWidth="500"/>
+                <Button text="Enviar" styleClass="primary-button"
+                        onAction="#enviarMensaje"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

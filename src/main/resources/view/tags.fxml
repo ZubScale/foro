@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forum.controller.TagController"
+      styleClass="form-container" spacing="20"
+      stylesheets="@/view/css/styles.css" padding="30">
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Text styleClass="header" text="Gestión de Tags"/>
+        <Button text="Nuevo Tag" styleClass="primary-button"
+                onAction="#mostrarCrearTag"/>
+    </HBox>
+
+    <TableView fx:id="tblTags" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="200"/>
+            <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="300"/>
+            <TableColumn fx:id="colPostsAsociados" text="Posts Asociados" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <HBox styleClass="button-bar" spacing="15">
+        <Button text="Editar" styleClass="secondary-button" onAction="#editarTag"/>
+        <Button text="Eliminar" styleClass="secondary-button" onAction="#eliminarTag"/>
+        <Button text="Volver" styleClass="secondary-button" onAction="#volverAGestion"/>
+    </HBox>
+</VBox>

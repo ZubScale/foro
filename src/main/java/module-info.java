@@ -1,9 +1,17 @@
-module com.foro {
+module com.forum {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.google.gson;
+    requires java.sql;
+    requires static lombok;
 
-    requires net.synedra.validatorfx;
+    opens com.forum to javafx.graphics;
+    opens com.forum.controller to javafx.fxml;
+    opens com.forum.model to com.google.gson, javafx.base;
 
-    opens com.foro to javafx.fxml;
-    exports com.foro;
+    exports com.forum;
+    exports com.forum.controller;
+    exports com.forum.model;
+    exports com.forum.repository;
+    exports com.forum.service;
 }

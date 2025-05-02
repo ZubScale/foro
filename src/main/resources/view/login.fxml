@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forum.controller.LoginController"
+      spacing="20" alignment="CENTER"
+      styleClass="form-container"
+      stylesheets="@/view/css/styles.css"
+      prefWidth="400" prefHeight="500">
+
+    <Text styleClass="header" text="Inicio de Sesión"/>
+
+    <TextField fx:id="txtUsername" styleClass="input-field" promptText="Nombre de usuario"/>
+    <PasswordField fx:id="pfPassword" styleClass="input-field" promptText="Contraseña"/>
+
+    <CheckBox fx:id="cbRememberMe" text="Recordar sesión"/>
+
+    <Button text="Ingresar" styleClass="primary-button" onAction="#handleLogin"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="¿No tienes cuenta?"/>
+        <Button text="Regístrate aquí" styleClass="secondary-button" onAction="#redirectToRegistro"/>
+    </HBox>
+
+    <Button text="Recuperar Contraseña" styleClass="secondary-button" onAction="#redirectToRecuperarPassword"/>
+</VBox>

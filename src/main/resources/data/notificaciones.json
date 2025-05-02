@@ -1,0 +1,10 @@
+[
+  {
+    "id": "notif-001",
+    "usuarioDestinoId": "user-001",
+    "tipo": "nuevo_comentario",
+    "contenido": "Tu post 'Java Streams' tiene un nuevo comentario",
+    "fecha": "2024-01-15T14:30:00",
+    "leida": false
+  }
+]
