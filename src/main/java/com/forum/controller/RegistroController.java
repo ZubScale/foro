@@ -7,8 +7,6 @@ import com.forum.repository.UsuarioRepositoryImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.time.LocalDate;
-
 public class RegistroController {
     @FXML
     private TextField txtUsername;
@@ -21,23 +19,30 @@ public class RegistroController {
     @FXML
     private Label lblError;
     @FXML
-    private Button RedirectToLogin;
+    private Button redirectToLogin;
 
     private final UsuarioService usuarioService =
             new UsuarioServiceImpl(new UsuarioRepositoryImpl());
 
     @FXML
     private void handleRegistro() {
+        lblError.setText(""); // Clear previous error messages
         try {
+            if (txtUsername.getText().isBlank() || txtPassword.getText().isBlank() ||
+                    txtEmail.getText().isBlank() || dateFechaNacimiento.getValue() == null) {
+                lblError.setText("Todos los campos son obligatorios");
+                return;
+            }
+
             Usuario nuevoUsuario = new Usuario(
-                    txtUsername.getText(),
+                    txtUsername.getText().trim(),
                     txtPassword.getText(),
-                    txtEmail.getText(),
+                    txtEmail.getText().trim(),
                     dateFechaNacimiento.getValue()
             );
 
             usuarioService.registrarUsuario(nuevoUsuario);
-            // Navegar a login
+            MainController.cargarVista("login");
         } catch (IllegalArgumentException e) {
             lblError.setText(e.getMessage());
         }

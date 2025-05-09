@@ -6,7 +6,7 @@
 <ScrollPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.PostController"
-            stylesheets="@/view/css/styles.css">
+            stylesheets="styles.css">
 
     <VBox spacing="20" padding="30">
         <!-- Cabecera del post -->

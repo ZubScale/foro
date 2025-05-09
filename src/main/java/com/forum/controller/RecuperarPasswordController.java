@@ -25,7 +25,6 @@ public class RecuperarPasswordController {
 
     @FXML
     public void initialize() {
-        // Ocultar campos inicialmente
         txtVerificationCode.setVisible(false);
         pfNewPassword.setVisible(false);
         btnRestablecer.setVisible(false);
@@ -34,6 +33,11 @@ public class RecuperarPasswordController {
     @FXML
     private void handleEnviarCodigo() {
         String email = txtRecoveryEmail.getText().trim();
+
+        if (email.isEmpty()) {
+            mostrarAlerta("Por favor ingrese un correo electrónico.", Alert.AlertType.WARNING);
+            return;
+        }
 
         try {
             if (passwordService.validarEmail(email)) {
@@ -53,10 +57,15 @@ public class RecuperarPasswordController {
         String codigo = txtVerificationCode.getText().trim();
         String nuevaPassword = pfNewPassword.getText().trim();
 
+        if (codigo.isEmpty() || nuevaPassword.isEmpty()) {
+            mostrarAlerta("Por favor complete todos los campos.", Alert.AlertType.WARNING);
+            return;
+        }
+
         try {
             passwordService.restablecerPassword(codigo, nuevaPassword);
             mostrarAlerta("Contraseña actualizada", Alert.AlertType.INFORMATION);
-            NavigationUtil.cambiarVista(btnRestablecer, "/view/login.fxml"); // Redirigir a login
+            NavigationUtil.cambiarVista(btnRestablecer, "/view/login.fxml");
         } catch (IllegalArgumentException e) {
             mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
         } catch (Exception e) {
@@ -66,7 +75,7 @@ public class RecuperarPasswordController {
 
     @FXML
     private void handleVolverALogin() {
-        NavigationUtil.cambiarVista(VolverAlLogin, "/view/login.fxml"); // Redirigir a login
+        NavigationUtil.cambiarVista(VolverAlLogin, "/view/login.fxml");
     }
 
     private void mostrarCamposRestablecer() {
@@ -76,6 +85,8 @@ public class RecuperarPasswordController {
     }
 
     private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
-        new Alert(tipo, mensaje).show();
+        Alert alert = new Alert(tipo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

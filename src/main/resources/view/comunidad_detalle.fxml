@@ -6,7 +6,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.ComunidadController"
-            stylesheets="@/view/css/styles.css">
+            stylesheets="styles.css">
 
     <top>
         <HBox styleClass="form-container" spacing="15" alignment="CENTER_LEFT" padding="20">

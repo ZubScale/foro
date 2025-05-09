@@ -6,7 +6,7 @@
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.PostController"
       styleClass="form-container" spacing="20"
-      stylesheets="@/view/css/styles.css" padding="30">
+      stylesheets="styles.css" padding="30">
 
     <Text styleClass="header" text="Editar Post"/>
 

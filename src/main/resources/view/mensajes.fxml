@@ -5,7 +5,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.MensajesController"
-            stylesheets="@/view/css/styles.css">
+            stylesheets="styles.css">
 
     <left>
         <VBox styleClass="form-container" spacing="15" prefWidth="300">

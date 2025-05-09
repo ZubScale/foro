@@ -15,9 +15,12 @@ import javafx.stage.Stage;
 
 public class UsuarioController {
 
-    @FXML private TextField txtUsername;
-    @FXML private TextField txtEmail;
-    @FXML private TextArea txtBio;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextArea txtBio;
 
     private final UsuarioService usuarioService =
             new UsuarioServiceImpl(new UsuarioRepositoryImpl());
@@ -29,9 +32,13 @@ public class UsuarioController {
 
     private void cargarDatosUsuario() {
         Usuario usuario = SessionManager.getUsuarioActual();
-        txtUsername.setText(usuario.getNombre());
-        txtEmail.setText(usuario.getEmail());
-        txtBio.setText(usuario.getDescripcion());
+        if (usuario == null) {
+            mostrarAlerta("No se pudo cargar los datos del usuario actual", Alert.AlertType.ERROR);
+            return;
+        }
+        txtUsername.setText(usuario.getNombre() != null ? usuario.getNombre() : "");
+        txtEmail.setText(usuario.getEmail() != null ? usuario.getEmail() : "");
+        txtBio.setText(usuario.getDescripcion() != null ? usuario.getDescripcion() : "");
     }
 
     @FXML
@@ -40,44 +47,61 @@ public class UsuarioController {
             validarCampos();
 
             Usuario usuarioActualizado = SessionManager.getUsuarioActual();
-            usuarioActualizado.setNombre(txtUsername.getText());
-            usuarioActualizado.setEmail(txtEmail.getText());
-            usuarioActualizado.setDescripcion(txtBio.getText());
+            if (usuarioActualizado == null) {
+                mostrarAlerta("No se encontró un usuario en la sesión actual", Alert.AlertType.ERROR);
+                return;
+            }
+
+            usuarioActualizado.setNombre(txtUsername.getText().trim());
+            usuarioActualizado.setEmail(txtEmail.getText().trim());
+            usuarioActualizado.setDescripcion(txtBio.getText().trim());
 
             usuarioService.actualizarUsuario(usuarioActualizado);
             mostrarAlerta("Perfil actualizado correctamente", Alert.AlertType.INFORMATION);
 
         } catch (IllegalArgumentException e) {
             mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            mostrarAlerta("Ocurrió un error inesperado", Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     private void cambiarPassword() {
-        NavigationUtil.cambiarVista(
-                (Stage) txtUsername.getScene().getWindow(),
-                "/view/recuperar_password.fxml"
-        );
+        try {
+            NavigationUtil.cambiarVista(
+                    (Stage) txtUsername.getScene().getWindow(),
+                    "/view/recuperar_password.fxml"
+            );
+        } catch (Exception e) {
+            mostrarAlerta("No se pudo navegar a la vista de cambiar contraseña", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void volverAlMain() {
-        NavigationUtil.cambiarVista(
-                (Stage) txtUsername.getScene().getWindow(),
-                "/view/main.fxml"
-        );
+        try {
+            NavigationUtil.cambiarVista(
+                    (Stage) txtUsername.getScene().getWindow(),
+                    "/view/main.fxml"
+            );
+        } catch (Exception e) {
+            mostrarAlerta("No se pudo navegar a la vista principal", Alert.AlertType.ERROR);
+        }
     }
 
     private void validarCampos() {
-        if (txtUsername.getText().isBlank()) {
+        if (txtUsername.getText() == null || txtUsername.getText().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de usuario es requerido");
         }
-        if (txtEmail.getText().isBlank() || !txtEmail.getText().contains("@")) {
+        String email = txtEmail.getText();
+        if (email == null || email.trim().isEmpty() || !email.contains("@")) {
             throw new IllegalArgumentException("Email no válido");
         }
     }
 
     private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
-        new Alert(tipo, mensaje, ButtonType.OK).show();
+        Alert alerta = new Alert(tipo, mensaje, ButtonType.OK);
+        alerta.showAndWait();
     }
 }

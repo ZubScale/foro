@@ -9,11 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 
 public class TagController {
     @FXML
@@ -40,11 +38,11 @@ public class TagController {
     private void configurarTabla() {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        colPostsAsociados.setCellValueFactory(new PropertyValueFactory<>("postsAsociados"));
+        colPostsAsociados.setCellValueFactory(new PropertyValueFactory<>("contadorUso"));
     }
 
     private void cargarTags() {
-        tagList = FXCollections.observableArrayList(tagService.obtenerTodos());
+        tagList = FXCollections.observableArrayList(tagService.listarTodosLosTags());
         tblTags.setItems(tagList);
     }
 
@@ -71,7 +69,7 @@ public class TagController {
             mostrarAlerta("Error", "Debe seleccionar un tag para eliminar.");
             return;
         }
-        tagService.eliminar(tagSeleccionado.getId());
+        tagService.eliminarTag(tagSeleccionado.getId());
         tagList.remove(tagSeleccionado);
     }
 

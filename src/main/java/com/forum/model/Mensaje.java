@@ -10,7 +10,7 @@ public class Mensaje {
     private LocalDateTime fechaEnvio;
     private boolean leido;
 
-    public Mensaje(String id, String s, String contenido) {
+    public Mensaje(Object o, String id, String s, String contenido) {
         this.remitenteId = remitenteId;
         this.destinatarioId = destinatarioId;
         this.contenido = this.contenido;

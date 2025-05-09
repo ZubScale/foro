@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PostController {
     // Elementos para editar post
@@ -45,8 +46,9 @@ public class PostController {
     @FXML
     private void initialize() {
         cargarTagsDisponibles();
-        // Si estamos en vista detalle, cargar datos del post
-        if (txtTituloPost != null) cargarDetallePost();
+        if (txtTituloPost != null) {
+            cargarDetallePost();
+        }
     }
 
     private void cargarDetallePost() {
@@ -54,14 +56,15 @@ public class PostController {
         if (postActual != null) {
             txtTituloPost.setText(postActual.getTitulo());
             lblAutor.setText("Autor: " + postActual.getUsuarioId());
-            lblFecha.setText("Fecha: " + postActual.getFecha().toString());
+            lblFecha.setText("Fecha: " + postActual.getFecha());
             lblVotos.setText("Votos: " + postActual.getVotos());
             txtContenidoPost.setText(postActual.getContenido());
-            lstComentarios.getItems().setAll(postActual.getComentarios() != null ? postActual.getComentarios() : new ArrayList<>());
+            lstComentarios.getItems().setAll(
+                    postActual.getComentarios() != null ? postActual.getComentarios() : new ArrayList<>()
+            );
         }
     }
 
-    // Métodos para editar post
     @FXML
     private void guardarPostEditado() {
         if (txtTitulo.getText().isBlank() || txtContenido.getText().isBlank()) {
@@ -86,7 +89,6 @@ public class PostController {
         NavigationUtil.cambiarVista(txtTitulo, "/view/main.fxml");
     }
 
-    // Métodos para vista detalle post
     @FXML
     private void votarPositivo() {
         Post post = SessionManager.getPostActual();
@@ -99,17 +101,15 @@ public class PostController {
     @FXML
     private void votarNegativo() {
         Post post = SessionManager.getPostActual();
-        if (post != null) {
-            if (post.getVotos() > 0) {
-                post.setVotos(post.getVotos() - 1);
-                actualizarVotos(post);
-            }
+        if (post != null && post.getVotos() > 0) {
+            post.setVotos(post.getVotos() - 1);
+            actualizarVotos(post);
         }
     }
 
     @FXML
     private void agregarComentario() {
-        if (!txtNuevoComentario.getText().isBlank()) {
+        if (!txtNuevoComentario.getText().isBlank() && SessionManager.getPostActual() != null) {
             Comentario nuevo = new Comentario(
                     SessionManager.getUsuarioActual().getId(),
                     txtNuevoComentario.getText()

@@ -8,7 +8,7 @@
       fx:controller="com.forum.controller.ComunidadController"
       styleClass="form-container"
       spacing="20"
-      stylesheets="@/view/css/styles.css"
+      stylesheets="styles.css"
       padding="30">
 
     <HBox spacing="20" alignment="CENTER_LEFT">

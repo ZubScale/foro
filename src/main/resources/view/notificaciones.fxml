@@ -6,7 +6,7 @@
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.NotificacionesController"
       spacing="15" styleClass="form-container"
-      stylesheets="@/view/css/styles.css">
+      stylesheets="styles.css">
 
     <Text styleClass="header" text="Notificaciones"/>
 

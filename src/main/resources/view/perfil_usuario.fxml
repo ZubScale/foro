@@ -6,7 +6,7 @@
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.UsuarioController"
       spacing="15" styleClass="form-container"
-      stylesheets="@/view/css/styles.css"
+      stylesheets="styles.css"
       prefWidth="600" prefHeight="500">
 
     <Text styleClass="header" text="Mi Perfil"/>

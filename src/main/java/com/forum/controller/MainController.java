@@ -3,12 +3,14 @@ package com.forum.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
+
 import java.io.IOException;
 
 public class MainController {
-    @FXML private static BorderPane mainContainer;
+    @FXML
+    private static BorderPane mainContainer;
 
-    public static void cargarVista(String fxml) {
+    static void cargarVista(String fxml) {
         try {
             mainContainer.setCenter(
                     FXMLLoader.load(MainController.class.getResource("/view/" + fxml + ".fxml"))

@@ -11,14 +11,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+import java.util.stream.Collectors;
+
 public class ComunidadController {
     // Componentes para comunidades.fxml
-    @FXML private TableView<Comunidad> tblComunidades;
-    @FXML private TextField txtBuscarComunidad;
+    @FXML
+    private TableView<Comunidad> tblComunidades;
+    @FXML
+    private TextField txtBuscarComunidad;
 
     // Componentes para comunidad_detalle.fxml
-    @FXML private TableView<?> tblPosts;
-    @FXML private ListView<?> lstTemas;
+    @FXML
+    private TableView<?> tblPosts;
+    @FXML
+    private ListView<?> lstTemas;
 
     private final ComunidadService comunidadService =
             new ComunidadServiceImpl(new ComunidadRepositoryImpl());
@@ -32,7 +38,21 @@ public class ComunidadController {
         tblComunidades.getItems().setAll(comunidadService.listarTodas());
     }
 
-    // Métodos para comunidad_detalle.fxml
+    @FXML
+    private void buscarComunidad() {
+        String textoBusqueda = txtBuscarComunidad.getText().toLowerCase().trim();
+        if (textoBusqueda.isEmpty()) {
+            cargarComunidades();
+        } else {
+            tblComunidades.getItems().setAll(
+                    comunidadService.listarTodas().stream()
+                            .filter(comunidad -> comunidad.getNombre() != null &&
+                                    comunidad.getNombre().toLowerCase().contains(textoBusqueda))
+                            .collect(Collectors.toList())
+            );
+        }
+    }
+
     @FXML
     private void mostrarCrearPost() {
         MainController.cargarVista("crear_post");
@@ -42,7 +62,11 @@ public class ComunidadController {
     private void editarComunidad() {
         Comunidad seleccionada = tblComunidades.getSelectionModel().getSelectedItem();
         if (seleccionada != null) {
+            // Guardar la comunidad seleccionada en una sesión o pasarla a la vista siguiente
+            SessionManager.login(SessionManager.getUsuarioActual());
             MainController.cargarVista("editar_comunidad");
+        } else {
+            mostrarAlerta("Debe seleccionar una comunidad para editar.");
         }
     }
 
@@ -57,6 +81,10 @@ public class ComunidadController {
     }
 
     private void mostrarAlerta(String mensaje) {
-        new Alert(Alert.AlertType.INFORMATION, mensaje).show();
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Información");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

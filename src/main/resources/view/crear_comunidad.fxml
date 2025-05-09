@@ -8,7 +8,7 @@
       fx:controller="com.forum.controller.CrearComunidadController"
       styleClass="form-container"
       spacing="20"
-      stylesheets="@/view/css/styles.css"
+      stylesheets="styles.css"
       padding="30">
 
     <Text styleClass="header" text="Crear Nueva Comunidad"/>

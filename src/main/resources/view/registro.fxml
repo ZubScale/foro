@@ -5,7 +5,7 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.RegistroController"
-            stylesheets="@/view/css/styles.css">
+            stylesheets="styles.css">
 
     <VBox styleClass="form-container" spacing="15" padding="30" prefWidth="500">
         <Text styleClass="header" text="Registro de Usuario"/>

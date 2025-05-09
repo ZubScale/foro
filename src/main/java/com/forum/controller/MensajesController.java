@@ -1,7 +1,6 @@
 package com.forum.controller;
 
 import com.forum.model.Mensaje;
-import com.forum.model.Usuario;
 import com.forum.service.MensajeService;
 import com.forum.service.MensajeServiceImpl;
 import com.forum.util.SessionManager;
@@ -10,9 +9,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 public class MensajesController {
-    @FXML private ListView<Mensaje> lvConversaciones;
-    @FXML private ListView<Mensaje> lvMensajes;
-    @FXML private TextArea taNuevoMensaje;
+    @FXML
+    private ListView<Mensaje> lvConversaciones;
+    @FXML
+    private ListView<Mensaje> lvMensajes;
+    @FXML
+    private TextArea taNuevoMensaje;
 
     private final MensajeService mensajeService = new MensajeServiceImpl();
 
@@ -30,11 +32,15 @@ public class MensajesController {
         );
     }
 
-    // Método faltante agregado
     private void cargarMensajesConversacion(Mensaje conversacion) {
         if (conversacion != null) {
             lvMensajes.getItems().setAll(
-                    mensajeService.obtenerMensajesConversacion(conversacion.getId())
+                    mensajeService.obtenerConversacion(
+                            SessionManager.getUsuarioActual().getId(),
+                            conversacion.getRemitenteId().equals(SessionManager.getUsuarioActual().getId())
+                                    ? conversacion.getDestinatarioId()
+                                    : conversacion.getRemitenteId()
+                    )
             );
         }
     }
@@ -48,10 +54,13 @@ public class MensajesController {
     @FXML
     private void enviarMensaje() {
         String contenido = taNuevoMensaje.getText();
-        if (!contenido.isEmpty()) {
+        if (!contenido.isEmpty() && lvConversaciones.getSelectionModel().getSelectedItem() != null) {
             Mensaje nuevo = new Mensaje(
+                    null,
                     SessionManager.getUsuarioActual().getId(),
-                    lvConversaciones.getSelectionModel().getSelectedItem().getId(),
+                    lvConversaciones.getSelectionModel().getSelectedItem().getDestinatarioId().equals(SessionManager.getUsuarioActual().getId())
+                            ? lvConversaciones.getSelectionModel().getSelectedItem().getRemitenteId()
+                            : lvConversaciones.getSelectionModel().getSelectedItem().getDestinatarioId(),
                     contenido
             );
             mensajeService.enviarMensaje(nuevo);
