@@ -5,39 +5,56 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.MainController"
-            stylesheets="styles.css">
+            style="-fx-background-color: white;">
 
     <top>
-        <HBox styleClass="header-bar" spacing="20" alignment="CENTER"
-              padding="10" style="-fx-background-color: #4A90E2;">
-            <Label text="ForoApp" style="-fx-text-fill: white; -fx-font-size: 20px;"/>
-            <Button text="Inicio" styleClass="nav-button"/>
-            <Button text="Mis Comunidades" styleClass="nav-button"/>
-            <Button text="Notificaciones" styleClass="nav-button" onAction="#redirectToNotificaciones"/>
-            <Button text="Mensajes" styleClass="nav-button" onAction="#redirectToMensajes"/>
-            <Button text="Perfil" styleClass="nav-button" onAction="#redirectToPerfil"/>
+        <HBox spacing="20" 
+              alignment="CENTER"
+              style="-fx-background-color: #4A90E2; -fx-padding: 10;">
+            <Label text="ForoApp" 
+                  style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Button text="Inicio" 
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 5 10;"/>
+            <Button text="Mis Comunidades" 
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 5 10;"/>
+            <Button text="Notificaciones" 
+                    onAction="#redirectToNotificaciones"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 5 10;"/>
+            <Button text="Mensajes" 
+                    onAction="#redirectToMensajes"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 5 10;"/>
+            <Button text="Perfil" 
+                    onAction="#redirectToPerfil"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 5 10;"/>
         </HBox>
     </top>
 
     <center>
-        <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab text="Feed Principal">
-                <ScrollPane fitToWidth="true">
-                    <VBox spacing="15" padding="20">
+        <TabPane tabClosingPolicy="UNAVAILABLE" 
+                 style="-fx-background-color: #f5f5f5;">
+            <Tab text="Feed Principal" 
+                 style="-fx-background-color: white; -fx-padding: 5;">
+                <ScrollPane fitToWidth="true" 
+                           style="-fx-background: white; -fx-background-color: transparent;">
+                    <VBox spacing="15" 
+                          style="-fx-padding: 20; -fx-background-color: white;">
                         <!-- Posts dinámicos se inyectarán aquí -->
                     </VBox>
                 </ScrollPane>
             </Tab>
-            <Tab text="Tendencias">
-                <ListView fx:id="lvTendencias" styleClass="list-view"/>
+            <Tab text="Tendencias" 
+                 style="-fx-background-color: white; -fx-padding: 5;">
+                <ListView fx:id="lvTendencias" 
+                         style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #e0e0e0;"/>
             </Tab>
         </TabPane>
     </center>
 
     <bottom>
-        <HBox styleClass="footer-bar" alignment="CENTER" padding="10"
-              style="-fx-background-color: #2C3E50;">
-            <Label text="© 2024 ForoApp" style="-fx-text-fill: white;"/>
+        <HBox alignment="CENTER" 
+              style="-fx-background-color: #2C3E50; -fx-padding: 10;">
+            <Label text="© 2024 ForoApp" 
+                  style="-fx-text-fill: white; -fx-font-size: 12px;"/>
         </HBox>
     </bottom>
 </BorderPane>

@@ -2,34 +2,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.RegistroController"
-            stylesheets="styles.css">
+            fitToWidth="true" fitToHeight="true">
 
-    <VBox styleClass="form-container" spacing="15" padding="30" prefWidth="500">
-        <Text styleClass="header" text="Registro de Usuario"/>
+    <VBox spacing="15" alignment="CENTER">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
 
-        <GridPane hgap="10" vgap="10">
+        <Text text="Registro de Usuario" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+        <GridPane hgap="10" vgap="10" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
             <!-- Columna Izquierda -->
-            <Label text="Nombre de usuario:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtUsername" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Nombre de usuario:" style="-fx-font-size: 14px;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtUsername" prefWidth="200" prefHeight="30"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-            <Label text="Correo electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="txtEmail" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Correo electrónico:" style="-fx-font-size: 14px;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtEmail" prefWidth="200" prefHeight="30"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <PasswordField fx:id="pfPassword" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Contraseña:" style="-fx-font-size: 14px;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <PasswordField fx:id="pfPassword" prefWidth="200" prefHeight="30"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
             <!-- Columna Derecha -->
-            <Label text="Nombre completo:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtFullName" styleClass="input-field" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+            <Label text="Nombre completo:" style="-fx-font-size: 14px;"
+                   GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtFullName" prefWidth="200" prefHeight="30"
+                       GridPane.columnIndex="3" GridPane.rowIndex="0"/>
 
-            <Label text="Fecha de nacimiento:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <DatePicker fx:id="dpBirthdate" styleClass="input-field" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <Label text="Fecha de nacimiento:" style="-fx-font-size: 14px;"
+                   GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <DatePicker fx:id="dpBirthdate" prefWidth="200" prefHeight="30"
+                        GridPane.columnIndex="3" GridPane.rowIndex="1"/>
         </GridPane>
 
-        <Button text="Crear Cuenta" styleClass="primary-button" onAction="#handleRegistro"/>
-        <Button text="Volver al Login" styleClass="secondary-button" onAction="#redirectToLogin"/>
+        <Button text="Crear Cuenta"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"
+                onAction="#handleRegistro"/>
+
+        <Button text="Volver al Login"
+                style="-fx-background-color: #757575; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"
+                onAction="#redirectToLogin"/>
     </VBox>
 </ScrollPane>

@@ -5,36 +5,52 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.PostController"
-      styleClass="form-container" spacing="20"
-      stylesheets="styles.css" padding="30">
+      spacing="20" 
+      padding="30"
+      style="-fx-background-color: white;">
 
-    <Text styleClass="header" text="Editar Post"/>
+    <Text text="Editar Post" 
+          style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-    <TextField fx:id="txtTitulo" styleClass="input-field" promptText="Título"/>
+    <TextField fx:id="txtTitulo" 
+               promptText="Título"
+               style="-fx-padding: 8px; -fx-background-radius: 4px; -fx-border-radius: 4px; -fx-border-color: #cccccc;"/>
 
-    <TextArea fx:id="txtContenido" styleClass="input-field"
-              wrapText="true" prefRowCount="10"/>
+    <TextArea fx:id="txtContenido"
+              wrapText="true" 
+              prefRowCount="10"
+              style="-fx-padding: 8px; -fx-background-radius: 4px; -fx-border-radius: 4px; -fx-border-color: #cccccc;"/>
 
     <VBox spacing="10">
-        <Label text="Etiquetas:"/>
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <ListView fx:id="lvTagsDisponibles" styleClass="list-view"
-                      prefWidth="200" prefHeight="100"/>
+        <Label text="Etiquetas:" 
+               style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" 
+              alignment="CENTER_LEFT">
+            <ListView fx:id="lvTagsDisponibles"
+                     prefWidth="200" 
+                     prefHeight="100"
+                     style="-fx-background-radius: 4px; -fx-border-radius: 4px; -fx-border-color: #cccccc;"/>
             <VBox spacing="5">
-                <Button text="Añadir →" styleClass="secondary-button"
-                        onAction="#agregarTag"/>
-                <Button text="← Quitar" styleClass="secondary-button"
-                        onAction="#quitarTag"/>
+                <Button text="Añadir →"
+                        onAction="#agregarTag"
+                        style="-fx-background-color: #f0f0f0; -fx-padding: 8px 15px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+                <Button text="← Quitar"
+                        onAction="#quitarTag"
+                        style="-fx-background-color: #f0f0f0; -fx-padding: 8px 15px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
             </VBox>
-            <ListView fx:id="lvTagsSeleccionados" styleClass="list-view"
-                      prefWidth="200" prefHeight="100"/>
+            <ListView fx:id="lvTagsSeleccionados"
+                     prefWidth="200" 
+                     prefHeight="100"
+                     style="-fx-background-radius: 4px; -fx-border-radius: 4px; -fx-border-color: #cccccc;"/>
         </HBox>
     </VBox>
 
-    <HBox styleClass="button-bar" spacing="15">
-        <Button text="Guardar Cambios" styleClass="primary-button"
-                onAction="#guardarPostEditado"/>
-        <Button text="Cancelar" styleClass="secondary-button"
-                onAction="#cancelarEdicionPost"/>
+    <HBox spacing="15">
+        <Button text="Guardar Cambios"
+                onAction="#guardarPostEditado"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+        <Button text="Cancelar"
+                onAction="#cancelarEdicionPost"
+                style="-fx-background-color: #f0f0f0; -fx-padding: 10px 20px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
     </HBox>
 </VBox>

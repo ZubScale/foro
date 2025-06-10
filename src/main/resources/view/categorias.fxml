@@ -5,26 +5,42 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.CategoriaController"
-      styleClass="form-container" spacing="20"
-      stylesheets="styles.css"  padding="30">
+      spacing="20" padding="30">
 
     <HBox spacing="20" alignment="CENTER_LEFT">
-        <Text styleClass="header" text="Gestión de Categorías"/>
-        <Button text="Nueva Categoría" styleClass="primary-button"
+        <Text text="Gestión de Categorías">
+            <font>
+                <Font size="24" name="System Bold"/>
+            </font>
+        </Text>
+        <Button text="Nueva Categoría"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white;"
                 onAction="#mostrarCrearCategoria"/>
     </HBox>
 
-    <TableView fx:id="tblCategorias" styleClass="table-view">
+    <TableView fx:id="tblCategorias" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="Nombre" prefWidth="250"/>
-            <TableColumn text="Comunidades Asociadas" prefWidth="300"/>
-            <TableColumn text="Fecha Creación" prefWidth="150"/>
+            <TableColumn text="Nombre" prefWidth="250">
+                <style>-fx-alignment: CENTER-LEFT;</style>
+            </TableColumn>
+            <TableColumn text="Comunidades Asociadas" prefWidth="300">
+                <style>-fx-alignment: CENTER-LEFT;</style>
+            </TableColumn>
+            <TableColumn text="Fecha Creación" prefWidth="150">
+                <style>-fx-alignment: CENTER;</style>
+            </TableColumn>
         </columns>
     </TableView>
 
-    <HBox styleClass="button-bar" spacing="15">
-        <Button text="Editar" styleClass="secondary-button" onAction="#editarCategoria"/>
-        <Button text="Eliminar" styleClass="secondary-button" onAction="#eliminarCategoria"/>
-        <Button text="Volver" styleClass="secondary-button" onAction="#volverAGestion"/>
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button text="Editar"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"
+                onAction="#editarCategoria"/>
+        <Button text="Eliminar"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"
+                onAction="#eliminarCategoria"/>
+        <Button text="Volver"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"
+                onAction="#volverAGestion"/>
     </HBox>
 </VBox>

@@ -2,46 +2,54 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.forum.controller.ComunidadController"
-            stylesheets="styles.css">
+            fx:controller="com.forum.controller.ComunidadController">
 
     <top>
-        <HBox styleClass="form-container" spacing="15" alignment="CENTER_LEFT" padding="20">
-            <Text styleClass="header" text="Nombre Comunidad"/>
-            <Button text="Unirse" styleClass="primary-button"/>
+        <HBox spacing="15" alignment="CENTER_LEFT" padding="20" style="-fx-background-color: #f0f0f0;">
+            <Text text="Nombre Comunidad" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Button text="Unirse" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 8 15;"/>
             <Button text="Crear Post"
-                    styleClass="secondary-button"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 15;"
                     onAction="#mostrarCrearPost"/>
         </HBox>
     </top>
 
     <center>
         <VBox spacing="15" padding="20">
-            <TableView fx:id="tblPosts" styleClass="table-view">
+            <TableView fx:id="tblPosts" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn text="Título" prefWidth="200"/>
                     <TableColumn text="Autor" prefWidth="150"/>
                     <TableColumn text="Votos" prefWidth="80"/>
                 </columns>
+                <style>
+                    -fx-border-color: #ddd;
+                    -fx-border-width: 1px;
+                </style>
             </TableView>
 
             <ListView fx:id="lstTemas"
-                      styleClass="list-view"
-                      prefHeight="150"/>
+                      prefHeight="150"
+                      style="-fx-border-color: #ddd; -fx-border-width: 1px;"/>
         </VBox>
     </center>
 
     <bottom>
-        <HBox styleClass="button-bar" padding="20" alignment="CENTER_RIGHT">
+        <HBox spacing="10" padding="20" alignment="CENTER_RIGHT" style="-fx-background-color: #f8f8f8;">
             <Button text="Editar Comunidad"
-                    styleClass="secondary-button"
+                    style="-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 8 15;"
                     onAction="#editarComunidad"/>
             <Button text="Volver"
-                    styleClass="secondary-button"
+                    style="-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 8 15;"
                     onAction="#volverAComunidades"/>
+            <padding>
+                <Insets right="10"/>
+            </padding>
         </HBox>
     </bottom>
+
 </BorderPane>

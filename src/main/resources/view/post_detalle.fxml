@@ -6,37 +6,65 @@
 <ScrollPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.PostController"
-            stylesheets="styles.css">
+            style="-fx-background-color: white;">
 
-    <VBox spacing="20" padding="30">
+    <VBox spacing="20" 
+          style="-fx-padding: 30; -fx-background-color: white;">
+        
         <!-- Cabecera del post -->
         <VBox spacing="5">
-            <Text styleClass="header" fx:id="Titulo"/>
-            <HBox spacing="10">
-                <Label fx:id="lblAutor" text="Autor: "/>
-                <Label fx:id="lblFecha" text="Fecha: "/>
-                <Label fx:id="lblVotos" text="Votos: "/>
+            <Text fx:id="Titulo"
+                  style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #333333;"/>
+            <HBox spacing="10" 
+                  style="-fx-padding: 5 0;">
+                <Label fx:id="lblAutor" 
+                       text="Autor: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666666;"/>
+                <Label fx:id="lblFecha" 
+                       text="Fecha: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666666;"/>
+                <Label fx:id="lblVotos" 
+                       text="Votos: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666666;"/>
             </HBox>
         </VBox>
 
         <!-- Contenido principal -->
-        <TextArea styleClass="input-field" fx:id="txtContenidoPost"
-                  wrapText="true" editable="false" prefHeight="200"/>
+        <TextArea fx:id="txtContenidoPost"
+                  wrapText="true" 
+                  editable="false" 
+                  prefHeight="200"
+                  style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;"/>
 
         <!-- Sistema de votación -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button text="↑" styleClass="voto-button" onAction="#votarPositivo"/>
-            <Label fx:id="lblContadorVotos" text="+0"/>
-            <Button text="↓" styleClass="voto-button" onAction="#votarNegativo"/>
+        <HBox spacing="10" 
+              alignment="CENTER_LEFT"
+              style="-fx-padding: 5 0;">
+            <Button text="↑" 
+                    onAction="#votarPositivo"
+                    style="-fx-background-color: #e9ecef; -fx-text-fill: #28a745; -fx-font-size: 16px; -fx-padding: 5 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Label fx:id="lblContadorVotos" 
+                   text="+0"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Button text="↓" 
+                    onAction="#votarNegativo"
+                    style="-fx-background-color: #e9ecef; -fx-text-fill: #dc3545; -fx-font-size: 16px; -fx-padding: 5 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
         </HBox>
 
         <!-- Sección de comentarios -->
         <VBox spacing="10">
-            <Text text="Comentarios" styleClass="subheader"/>
-            <ListView fx:id="lstComentarios" styleClass="list-view" prefHeight="300"/>
-            <TextArea fx:id="txtNuevoComentario" promptText="Escribe tu comentario..."
-                      styleClass="input-field" wrapText="true"/>
-            <Button text="Enviar Comentario" styleClass="primary-button" onAction="#agregarComentario"/>
+            <Text text="Comentarios"
+                  style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #333333;"/>
+            <ListView fx:id="lstComentarios" 
+                      prefHeight="300"
+                      style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+            <TextArea fx:id="txtNuevoComentario" 
+                      promptText="Escribe tu comentario..."
+                      wrapText="true"
+                      style="-fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;"/>
+            <Button text="Enviar Comentario" 
+                    onAction="#agregarComentario"
+                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
         </VBox>
     </VBox>
 </ScrollPane>

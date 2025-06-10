@@ -5,27 +5,56 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.UsuarioController"
-      spacing="15" styleClass="form-container"
-      stylesheets="styles.css"
-      prefWidth="600" prefHeight="500">
+      spacing="15" 
+      prefWidth="600" 
+      prefHeight="500"
+      style="-fx-padding: 30; -fx-background-color: white;">
 
-    <Text styleClass="header" text="Mi Perfil"/>
+    <Text text="Mi Perfil"
+          style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #333333;"/>
 
-    <GridPane hgap="10" vgap="10">
-        <Label text="Nombre de usuario:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="txtUsername" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <GridPane hgap="10" vgap="10"
+              style="-fx-padding: 20 0;">
+        <Label text="Nombre de usuario:" 
+               GridPane.columnIndex="0" 
+               GridPane.rowIndex="0"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="txtUsername" 
+                   GridPane.columnIndex="1" 
+                   GridPane.rowIndex="0"
+                   style="-fx-padding: 8; -fx-pref-width: 300; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc;"/>
 
-        <Label text="Correo electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="txtEmail" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Correo electrónico:" 
+               GridPane.columnIndex="0" 
+               GridPane.rowIndex="1"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="txtEmail" 
+                   GridPane.columnIndex="1" 
+                   GridPane.rowIndex="1"
+                   style="-fx-padding: 8; -fx-pref-width: 300; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc;"/>
 
-        <Label text="Biografía:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextArea fx:id="txtBio" styleClass="input-field" wrapText="true"
-                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Biografía:" 
+               GridPane.columnIndex="0" 
+               GridPane.rowIndex="2"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextArea fx:id="txtBio" 
+                  wrapText="true"
+                  GridPane.columnIndex="1" 
+                  GridPane.rowIndex="2"
+                  prefRowCount="4"
+                  style="-fx-padding: 8; -fx-pref-width: 300; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc;"/>
     </GridPane>
 
-    <HBox styleClass="button-bar">
-        <Button text="Guardar Cambios" styleClass="primary-button" onAction="#guardarPerfil"/>
-        <Button text="Cambiar Contraseña" styleClass="secondary-button" onAction="#cambiarPassword"/>
-        <Button text="Volver" styleClass="secondary-button" onAction="#volverAlMain"/>
+    <HBox spacing="10" 
+          style="-fx-padding: 20 0;">
+        <Button text="Guardar Cambios" 
+                onAction="#guardarPerfil"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+        <Button text="Cambiar Contraseña" 
+                onAction="#cambiarPassword"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button text="Volver" 
+                onAction="#volverAlMain"
+                style="-fx-background-color: #f0f0f0; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
     </HBox>
 </VBox>

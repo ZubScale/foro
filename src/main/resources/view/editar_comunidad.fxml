@@ -5,45 +5,44 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.forum.controller.EditarComunidadController"
-            stylesheets="styles.css">
+            fx:controller="com.forum.controller.EditarComunidadController">
 
-    <VBox styleClass="form-container" spacing="20" padding="30">
-        <Text styleClass="header" text="Editar Comunidad"/>
+    <VBox spacing="20" padding="30" style="-fx-background-color: white;">
+        <Text text="Editar Comunidad" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
         <GridPane hgap="15" vgap="15">
             <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
             <TextField fx:id="txtNombre"
-                       styleClass="input-field"
+                       style="-fx-padding: 5px; -fx-border-color: #cccccc; -fx-border-radius: 3px;"
                        GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
             <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <TextArea fx:id="taDescripcion"
-                      styleClass="input-field"
+                      style="-fx-padding: 5px; -fx-border-color: #cccccc; -fx-border-radius: 3px;"
                       wrapText="true"
                       prefRowCount="3"
                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
             <Label text="Reglas:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
             <TextArea fx:id="taReglas"
-                      styleClass="input-field"
+                      style="-fx-padding: 5px; -fx-border-color: #cccccc; -fx-border-radius: 3px;"
                       wrapText="true"
                       prefRowCount="5"
                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
             <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
             <ComboBox fx:id="cbCategorias"
-                      styleClass="input-field"
+                      style="-fx-padding: 5px; -fx-border-color: #cccccc; -fx-border-radius: 3px;"
                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         </GridPane>
 
-        <HBox styleClass="button-bar" spacing="15">
+        <HBox spacing="15" alignment="CENTER_RIGHT">
             <Button text="Guardar Cambios"
-                    styleClass="primary-button"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-cursor: hand;"
                     onAction="#guardarCambiosComunidad"/>
 
             <Button text="Cancelar"
-                    styleClass="secondary-button"
+                    style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-cursor: hand;"
                     onAction="#cancelarEdicion"/>
         </HBox>
     </VBox>

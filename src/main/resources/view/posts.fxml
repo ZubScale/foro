@@ -5,16 +5,32 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.PostController"
-            stylesheets="styles.css">
+            fitToWidth="true"
+            style="-fx-background: white;">
 
-    <VBox styleClass="form-container" spacing="15" padding="30">
+    <VBox spacing="15" padding="30">
         <HBox spacing="20" alignment="CENTER_LEFT">
-            <Text styleClass="header" text="Todos los Posts"/>
-            <ComboBox fx:id="cbFiltros" styleClass="input-field" promptText="Filtrar por..."/>
+            <Text style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Todos los Posts"/>
+            <ComboBox fx:id="cbFiltros" prefWidth="200"
+                      style="-fx-background-color: white; -fx-border-color: #cccccc;"
+                      promptText="Filtrar por..."/>
+            <Button text="Nuevo Post"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"
+                    onAction="#crearNuevoPost"/>
         </HBox>
 
         <VBox fx:id="containerPosts" spacing="20">
-            <!-- Posts dinámicos con formato de tarjeta -->
+            <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-background: transparent;">
+                <VBox spacing="10">
+                    <ListView fx:id="listaPosts" VBox.vgrow="ALWAYS"
+                              style="-fx-background-color: transparent; -fx-border-width: 0;">
+                        <placeholder>
+                            <Label text="No hay posts disponibles"
+                                   style="-fx-text-fill: #757575;"/>
+                        </placeholder>
+                    </ListView>
+                </VBox>
+            </ScrollPane>
         </VBox>
     </VBox>
 </ScrollPane>

@@ -5,24 +5,41 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.LoginController"
-      spacing="20" alignment="CENTER"
-      styleClass="form-container"
-      stylesheets="styles.css"
-      prefWidth="400" prefHeight="500">
+      spacing="20" 
+      alignment="CENTER"
+      prefWidth="400" 
+      prefHeight="500"
+      style="-fx-background-color: white; -fx-padding: 30;">
 
-    <Text styleClass="header" text="Inicio de Sesión"/>
+    <Text text="Inicio de Sesión"
+          style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #333333;"/>
 
-    <TextField fx:id="txtUsername" styleClass="input-field" promptText="Nombre de usuario"/>
-    <PasswordField fx:id="pfPassword" styleClass="input-field" promptText="Contraseña"/>
+    <TextField fx:id="txtUsername" 
+               promptText="Nombre de usuario"
+               style="-fx-padding: 10; -fx-pref-width: 300; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc;"/>
 
-    <CheckBox fx:id="cbRememberMe" text="Recordar sesión"/>
+    <PasswordField fx:id="pfPassword" 
+                  promptText="Contraseña"
+                  style="-fx-padding: 10; -fx-pref-width: 300; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc;"/>
 
-    <Button text="Ingresar" styleClass="primary-button" onAction="#handleLogin"/>
+    <CheckBox fx:id="cbRememberMe" 
+              text="Recordar sesión"
+              style="-fx-font-size: 12px;"/>
 
-    <HBox spacing="10" alignment="CENTER">
-        <Label text="¿No tienes cuenta?"/>
-        <Button text="Regístrate aquí" styleClass="secondary-button" onAction="#redirectToRegistro"/>
+    <Button text="Ingresar" 
+            onAction="#handleLogin"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-pref-width: 300; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10" 
+          alignment="CENTER">
+        <Label text="¿No tienes cuenta?"
+               style="-fx-font-size: 12px;"/>
+        <Button text="Regístrate aquí" 
+                onAction="#redirectToRegistro"
+                style="-fx-background-color: transparent; -fx-text-fill: #2196F3; -fx-cursor: hand; -fx-underline: true;"/>
     </HBox>
 
-    <Button text="Recuperar Contraseña" styleClass="secondary-button" onAction="#redirectToRecuperarPassword"/>
+    <Button text="Recuperar Contraseña" 
+            onAction="#redirectToRecuperarPassword"
+            style="-fx-background-color: transparent; -fx-text-fill: #757575; -fx-cursor: hand; -fx-underline: true;"/>
 </VBox>

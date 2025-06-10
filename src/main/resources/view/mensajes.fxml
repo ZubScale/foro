@@ -5,32 +5,43 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.forum.controller.MensajesController"
-            stylesheets="styles.css">
+            style="-fx-background-color: white;">
 
     <left>
-        <VBox styleClass="form-container" spacing="15" prefWidth="300">
-            <Text styleClass="header" text="Conversaciones"/>
-            <ListView fx:id="lvConversaciones" styleClass="list-view"
-                      prefHeight="500"/>
+        <VBox spacing="15" 
+              prefWidth="300"
+              style="-fx-padding: 20; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-width: 0 1 0 0;">
+            <Text text="Conversaciones"
+                  style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #212529;"/>
+            <ListView fx:id="lvConversaciones"
+                      prefHeight="500"
+                      style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #dee2e6;"/>
         </VBox>
     </left>
 
     <center>
-        <VBox spacing="15" padding="30">
-            <Text styleClass="header" text="Mensajes"/>
+        <VBox spacing="15" 
+              style="-fx-padding: 30;">
+            <Text text="Mensajes"
+                  style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #212529;"/>
 
-            <ScrollPane fitToWidth="true">
-                <ListView fx:id="lvMensajes" styleClass="list-view"
-                          prefHeight="400"/>
+            <ScrollPane fitToWidth="true"
+                       style="-fx-background: transparent; -fx-background-color: transparent;">
+                <ListView fx:id="lvMensajes"
+                          prefHeight="400"
+                          style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #dee2e6;"/>
             </ScrollPane>
 
             <HBox spacing="10">
-                <TextArea fx:id="taNuevoMensaje" styleClass="input-field"
-                          wrapText="true" prefRowCount="3"
+                <TextArea fx:id="taNuevoMensaje"
+                          wrapText="true" 
+                          prefRowCount="3"
+                          prefWidth="500"
                           promptText="Escribe tu mensaje..."
-                          prefWidth="500"/>
-                <Button text="Enviar" styleClass="primary-button"
-                        onAction="#enviarMensaje"/>
+                          style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #dee2e6;"/>
+                <Button text="Enviar"
+                        onAction="#enviarMensaje"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
             </HBox>
         </VBox>
     </center>

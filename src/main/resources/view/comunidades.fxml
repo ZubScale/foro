@@ -6,28 +6,32 @@
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.ComunidadController"
-      styleClass="form-container"
       spacing="20"
-      stylesheets="styles.css"
-      padding="30">
+      padding="30"
+      style="-fx-background-color: white;">
 
     <HBox spacing="20" alignment="CENTER_LEFT">
-        <Text styleClass="header" text="Comunidades"/>
+        <Text text="Comunidades"
+              style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
         <Button text="Crear Nueva"
-                styleClass="primary-button"
+                style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-padding: 8 16;"
                 onAction="#redirectToCrearComunidad"/>
     </HBox>
 
-    <TableView fx:id="tblComunidades" styleClass="table-view">
+    <TableView fx:id="tblComunidades" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="Nombre" prefWidth="250"/>
-            <TableColumn text="Miembros" prefWidth="100"/>
-            <TableColumn text="Categoría" prefWidth="150"/>
-            <TableColumn text="Última actividad" prefWidth="200"/>
+            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="250"/>
+            <TableColumn fx:id="colMiembros" text="Miembros" prefWidth="100"/>
+            <TableColumn fx:id="colCategoria" text="Categoría" prefWidth="150"/>
+            <TableColumn fx:id="colActividad" text="Última actividad" prefWidth="200"/>
         </columns>
+        <style>
+            -fx-border-color: #ddd;
+            -fx-border-width: 1px;
+        </style>
     </TableView>
 
     <TextField fx:id="txtBuscarComunidad"
-               styleClass="input-field"
+               style="-fx-padding: 8; -fx-border-color: #ddd; -fx-border-width: 1px;"
                promptText="Buscar comunidades..."/>
 </VBox>

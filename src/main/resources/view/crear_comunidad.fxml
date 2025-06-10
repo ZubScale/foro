@@ -2,42 +2,52 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.forum.controller.CrearComunidadController"
-      styleClass="form-container"
+      alignment="CENTER"
       spacing="20"
-      stylesheets="styles.css"
-      padding="30">
+      style="-fx-background-color: white; -fx-padding: 30;">
 
-    <Text styleClass="header" text="Crear Nueva Comunidad"/>
+    <Text text="Crear Nueva Comunidad"
+          style="-fx-font-size: 24; -fx-font-weight: bold;"/>
 
     <TextField fx:id="txtNombre"
-               styleClass="input-field"
+               prefWidth="300"
+               style="-fx-padding: 8; -fx-border-color: #cccccc; -fx-border-radius: 4;"
                promptText="Nombre de la comunidad"/>
 
     <TextArea fx:id="taDescripcion"
-              styleClass="input-field"
-              promptText="Descripción"
-              prefRowCount="3"/>
+              prefWidth="300"
+              prefRowCount="3"
+              wrapText="true"
+              style="-fx-padding: 8; -fx-border-color: #cccccc; -fx-border-radius: 4;"
+              promptText="Descripción"/>
 
     <TextArea fx:id="taReglas"
-              styleClass="input-field"
-              promptText="Reglas de la comunidad"
-              prefRowCount="5"/>
+              prefWidth="300"
+              prefRowCount="5"
+              wrapText="true"
+              style="-fx-padding: 8; -fx-border-color: #cccccc; -fx-border-radius: 4;"
+              promptText="Reglas de la comunidad"/>
 
-    <HBox spacing="15">
+    <HBox spacing="15" alignment="CENTER">
         <ComboBox fx:id="cbCategoria"
-                  styleClass="input-field"
+                  prefWidth="142"
+                  style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 4;"
                   promptText="Seleccionar categoría"/>
 
         <ComboBox fx:id="cbPrivacidad"
-                  styleClass="input-field"
+                  prefWidth="142"
+                  style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 4;"
                   promptText="Privacidad"/>
     </HBox>
 
     <Button text="Crear Comunidad"
-            styleClass="primary-button"
+            prefWidth="300"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 10; -fx-cursor: hand;"
             onAction="#crearComunidad"/>
+
 </VBox>
