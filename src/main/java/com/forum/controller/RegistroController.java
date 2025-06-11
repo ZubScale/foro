@@ -3,43 +3,32 @@ package com.forum.controller;
 import com.forum.model.Usuario;
 import com.forum.service.UsuarioService;
 import com.forum.service.UsuarioServiceImpl;
+import com.forum.repository.UsuarioRepositoryImpl;
 import com.forum.util.ValidationUtil;
 import com.forum.util.ValidationUtil.ValidationResult;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class RegistroController {
     @FXML
     private TextField txtUsername;
-    
+
     @FXML
     private TextField txtEmail;
-    
+
     @FXML
-    private PasswordField txtPassword;
-    
+    private PasswordField pfPassword;
+
     @FXML
-    private PasswordField txtConfirmPassword;
-    
+    private TextField txtFullName;
+
     @FXML
-    private DatePicker dpFechaNacimiento;
-    
-    @FXML
-    private TextField txtNombre;
-    
-    @FXML
-    private TextField txtApellido;
-    
-    @FXML
-    private Button btnRegistrar;
-    
-    @FXML
-    private Hyperlink linkLogin;
-    
-    @FXML
-    private VBox formContainer;
+    private DatePicker dpBirthdate;
 
     private final UsuarioService usuarioService;
     private static final int EDAD_MINIMA = 13;
@@ -52,82 +41,64 @@ public class RegistroController {
     public void initialize() {
         configurarValidacionesEnTiempoReal();
         configurarDatePicker();
-        configurarEventos();
     }
 
     private void configurarValidacionesEnTiempoReal() {
         // Validación de username
         txtUsername.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!ValidationUtil.isValidUsername(newVal)) {
-                mostrarErrorEnCampo(txtUsername, "Usuario debe tener entre 3 y 20 caracteres");
-            } else {
-                limpiarErrorEnCampo(txtUsername);
+            if (newVal != null && !newVal.isEmpty()) {
+                if (!ValidationUtil.isValidUsername(newVal)) {
+                    mostrarErrorEnCampo(txtUsername, "Usuario debe tener entre 3 y 20 caracteres");
+                } else {
+                    limpiarErrorEnCampo(txtUsername);
+                }
             }
-            validarFormulario();
         });
 
         // Validación de email
         txtEmail.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!ValidationUtil.isValidEmail(newVal)) {
-                mostrarErrorEnCampo(txtEmail, "Email no válido");
-            } else {
-                limpiarErrorEnCampo(txtEmail);
+            if (newVal != null && !newVal.isEmpty()) {
+                if (!ValidationUtil.isValidEmail(newVal)) {
+                    mostrarErrorEnCampo(txtEmail, "Email no válido");
+                } else {
+                    limpiarErrorEnCampo(txtEmail);
+                }
             }
-            validarFormulario();
         });
 
         // Validación de contraseña
-        txtPassword.textProperty().addListener((obs, oldVal, newVal) -> {
-            ValidationResult result = ValidationUtil.validatePassword(newVal);
-            if (!result.isValid()) {
-                mostrarErrorEnCampo(txtPassword, result.getMessage());
-            } else {
-                limpiarErrorEnCampo(txtPassword);
+        pfPassword.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                ValidationResult result = ValidationUtil.validatePassword(newVal);
+                if (!result.isValid()) {
+                    mostrarErrorEnCampo(pfPassword, result.getMessage());
+                } else {
+                    limpiarErrorEnCampo(pfPassword);
+                }
             }
-            validarConfirmacionPassword();
-            validarFormulario();
         });
 
-        // Validación de confirmación de contraseña
-        txtConfirmPassword.textProperty().addListener((obs, oldVal, newVal) -> {
-            validarConfirmacionPassword();
-            validarFormulario();
-        });
-
-        // Validación de nombre y apellido
-        txtNombre.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!ValidationUtil.isValidNombre(newVal)) {
-                mostrarErrorEnCampo(txtNombre, "Nombre no válido");
-            } else {
-                limpiarErrorEnCampo(txtNombre);
+        // Validación de nombre completo
+        txtFullName.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                if (!ValidationUtil.isValidNombre(newVal)) {
+                    mostrarErrorEnCampo(txtFullName, "Nombre no válido");
+                } else {
+                    limpiarErrorEnCampo(txtFullName);
+                }
             }
-            validarFormulario();
-        });
-
-        txtApellido.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!ValidationUtil.isValidNombre(newVal)) {
-                mostrarErrorEnCampo(txtApellido, "Apellido no válido");
-            } else {
-                limpiarErrorEnCampo(txtApellido);
-            }
-            validarFormulario();
         });
     }
 
     private void configurarDatePicker() {
-        dpFechaNacimiento.setValue(LocalDate.now().minusYears(EDAD_MINIMA));
-        dpFechaNacimiento.setDayCellFactory(picker -> new DateCell() {
+        dpBirthdate.setValue(LocalDate.now().minusYears(EDAD_MINIMA));
+        dpBirthdate.setDayCellFactory(picker -> new DateCell() {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 setDisable(empty || date.isAfter(LocalDate.now().minusYears(EDAD_MINIMA)));
             }
         });
-    }
-
-    private void configurarEventos() {
-        linkLogin.setOnAction(event -> redirectToLogin());
-        btnRegistrar.setOnAction(event -> handleRegistro());
     }
 
     @FXML
@@ -151,52 +122,60 @@ public class RegistroController {
         Usuario usuario = new Usuario();
         usuario.setUsername(txtUsername.getText().trim());
         usuario.setEmail(txtEmail.getText().trim());
-        usuario.setPassword(txtPassword.getText());
-        usuario.setNombre(txtNombre.getText().trim());
-        usuario.setApellido(txtApellido.getText().trim());
-        usuario.setFechaNacimiento(dpFechaNacimiento.getValue());
-        return usuario;
-    }
+        usuario.setPassword(pfPassword.getText());
 
-    private void validarConfirmacionPassword() {
-        if (!txtPassword.getText().equals(txtConfirmPassword.getText())) {
-            mostrarErrorEnCampo(txtConfirmPassword, "Las contraseñas no coinciden");
-        } else {
-            limpiarErrorEnCampo(txtConfirmPassword);
+        // Separar nombre completo en nombre y apellido
+        String[] partesNombre = txtFullName.getText().trim().split(" ", 2);
+        usuario.setNombre(partesNombre[0]);
+        if (partesNombre.length > 1) {
+            usuario.setApellido(partesNombre[1]);
         }
+
+        usuario.setFechaNacimiento(dpBirthdate.getValue());
+        return usuario;
     }
 
     private boolean validarFormularioCompleto() {
         boolean isValid = true;
-        isValid &= ValidationUtil.isValidUsername(txtUsername.getText());
-        isValid &= ValidationUtil.isValidEmail(txtEmail.getText());
-        isValid &= ValidationUtil.isValidPassword(txtPassword.getText());
-        isValid &= txtPassword.getText().equals(txtConfirmPassword.getText());
-        isValid &= ValidationUtil.isValidNombre(txtNombre.getText());
-        isValid &= ValidationUtil.isValidNombre(txtApellido.getText());
-        isValid &= ValidationUtil.isValidAge(dpFechaNacimiento.getValue(), EDAD_MINIMA);
+
+        if (!ValidationUtil.isValidUsername(txtUsername.getText())) {
+            isValid = false;
+        }
+        if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
+            isValid = false;
+        }
+        if (!ValidationUtil.isValidPassword(pfPassword.getText())) {
+            isValid = false;
+        }
+        if (!ValidationUtil.isValidNombre(txtFullName.getText())) {
+            isValid = false;
+        }
+        if (!ValidationUtil.isValidAge(dpBirthdate.getValue(), EDAD_MINIMA)) {
+            isValid = false;
+        }
+
         return isValid;
     }
 
-    private void validarFormulario() {
-        btnRegistrar.setDisable(!validarFormularioCompleto());
-    }
-
+    @FXML
     private void redirectToLogin() {
         try {
-            MainController.cargarVista("login");
+            Stage stage = (Stage) txtUsername.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
         } catch (Exception e) {
             mostrarError("Error al redirigir al login: " + e.getMessage());
         }
     }
 
     private void mostrarErrorEnCampo(TextField campo, String mensaje) {
-        campo.setStyle("-fx-border-color: red;");
+        campo.setStyle("-fx-border-color: #ff6b6b; -fx-border-width: 2px; -fx-border-radius: 5px;");
         campo.setTooltip(new Tooltip(mensaje));
     }
 
     private void limpiarErrorEnCampo(TextField campo) {
-        campo.setStyle("");
+        campo.setStyle("-fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 5px;");
         campo.setTooltip(null);
     }
 

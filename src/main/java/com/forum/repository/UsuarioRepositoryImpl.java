@@ -23,60 +23,76 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     @Override
     public void update(Usuario usuario) {
         List<Usuario> usuarios = findAll();
-        usuarios.replaceAll(u -> u.getNombre().equals(usuario.getNombre()) ? usuario : u);
+        usuarios.replaceAll(u -> u.getUsername().equals(usuario.getUsername()) ? usuario : u);
         writeToFile(usuarios);
     }
 
     @Override
     public void delete(String username) {
         List<Usuario> usuarios = findAll();
-        usuarios.removeIf(u -> u.getNombre().equals(username));
+        usuarios.removeIf(u -> u.getUsername().equals(username));
         writeToFile(usuarios);
     }
 
     @Override
     public Optional<Usuario> findByUsername(String username) {
         return findAll().stream()
-                .filter(u -> u.getNombre().equals(username))
+                .filter(u -> u.getUsername() != null && u.getUsername().equals(username))
                 .findFirst();
-    }
-
-    @Override
-    public boolean existsByEmail(String email) {
-        return findAll().stream()
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
-    }
-
-    @Override
-    public boolean existePorEmail(String email) {
-        return false;
     }
 
     @Override
     public Optional<Usuario> findByEmail(String email) {
         return findAll().stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email))
+                .filter(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(email))
                 .findFirst();
     }
 
     @Override
     public boolean existsByUsername(String username) {
         return findAll().stream()
-                .anyMatch(u -> u.getNombre().equalsIgnoreCase(username));
+                .anyMatch(u -> u.getUsername() != null && u.getUsername().equalsIgnoreCase(username));
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return findAll().stream()
+                .anyMatch(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(email));
+    }
+
+    @Override
+    public boolean existePorEmail(String email) {
+        return existsByEmail(email);
     }
 
     private List<Usuario> findAll() {
-        try (Reader reader = new FileReader(FILE_PATH)) {
-            return gson.fromJson(reader, new TypeToken<ArrayList<Usuario>>() {
-            }.getType());
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+                writeToFile(new ArrayList<>());
+                return new ArrayList<>();
+            }
+
+            try (Reader reader = new FileReader(FILE_PATH)) {
+                List<Usuario> usuarios = gson.fromJson(reader, new TypeToken<ArrayList<Usuario>>() {}.getType());
+                return usuarios != null ? usuarios : new ArrayList<>();
+            }
         } catch (IOException e) {
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
 
     private void writeToFile(List<Usuario> usuarios) {
-        try (Writer writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(usuarios, writer);
+        try {
+            File file = new File(FILE_PATH);
+            file.getParentFile().mkdirs();
+
+            try (Writer writer = new FileWriter(FILE_PATH)) {
+                gson.toJson(usuarios, writer);
+            }
         } catch (IOException e) {
             throw new RuntimeException("Error al escribir en usuarios.json", e);
         }

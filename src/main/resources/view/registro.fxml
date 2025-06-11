@@ -2,58 +2,145 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.forum.controller.RegistroController"
-            fitToWidth="true" fitToHeight="true">
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.forum.controller.RegistroController"
+           style="-fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);">
 
-    <VBox spacing="15" alignment="CENTER">
-        <padding>
-            <Insets top="30" right="30" bottom="30" left="30"/>
-        </padding>
+    <ScrollPane fitToWidth="true" fitToHeight="true"
+                style="-fx-background: transparent; -fx-background-color: transparent;">
+        <StackPane>
+            <VBox spacing="20" alignment="CENTER" maxWidth="500"
+                  style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40;">
 
-        <Text text="Registro de Usuario" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <effect>
+                    <DropShadow radius="25" offsetX="0" offsetY="10" color="#00000033"/>
+                </effect>
 
-        <GridPane hgap="10" vgap="10" alignment="CENTER">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
+                <VBox spacing="5" alignment="CENTER">
+                    <Text text="Crear Cuenta"
+                          style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #764ba2;">
+                        <effect>
+                            <DropShadow radius="2" offsetY="2" color="#00000022"/>
+                        </effect>
+                    </Text>
+                    <Text text="Únete a nuestra comunidad"
+                          style="-fx-font-size: 14px; -fx-fill: #666666;"/>
+                </VBox>
 
-            <!-- Columna Izquierda -->
-            <Label text="Nombre de usuario:" style="-fx-font-size: 14px;"
-                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtUsername" prefWidth="200" prefHeight="30"
-                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <GridPane hgap="15" vgap="15" alignment="CENTER">
+                    <padding>
+                        <Insets top="20"/>
+                    </padding>
 
-            <Label text="Correo electrónico:" style="-fx-font-size: 14px;"
-                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="txtEmail" prefWidth="200" prefHeight="30"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <!-- Nombre de usuario -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                        <Label text="Nombre de usuario"
+                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtUsername"
+                                   promptText="Elige un nombre único"
+                                   prefWidth="440"
+                                   style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10;
+                                          -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
+                            <effect>
+                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
+                            </effect>
+                        </TextField>
+                    </VBox>
 
-            <Label text="Contraseña:" style="-fx-font-size: 14px;"
-                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <PasswordField fx:id="pfPassword" prefWidth="200" prefHeight="30"
-                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <!-- Email -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                        <Label text="Correo electrónico"
+                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEmail"
+                                   promptText="tu@email.com"
+                                   prefWidth="440"
+                                   style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10;
+                                          -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
+                            <effect>
+                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
+                            </effect>
+                        </TextField>
+                    </VBox>
 
-            <!-- Columna Derecha -->
-            <Label text="Nombre completo:" style="-fx-font-size: 14px;"
-                   GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtFullName" prefWidth="200" prefHeight="30"
-                       GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    <!-- Contraseña -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2">
+                        <Label text="Contraseña"
+                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
+                        <PasswordField fx:id="pfPassword"
+                                       promptText="Mínimo 8 caracteres"
+                                       prefWidth="440"
+                                       style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10;
+                                              -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
+                            <effect>
+                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
+                            </effect>
+                        </PasswordField>
+                    </VBox>
 
-            <Label text="Fecha de nacimiento:" style="-fx-font-size: 14px;"
-                   GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <DatePicker fx:id="dpBirthdate" prefWidth="200" prefHeight="30"
-                        GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-        </GridPane>
+                    <!-- Nombre completo -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <Label text="Nombre completo"
+                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtFullName"
+                                   promptText="Juan Pérez"
+                                   prefWidth="210"
+                                   style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10;
+                                          -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
+                            <effect>
+                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
+                            </effect>
+                        </TextField>
+                    </VBox>
 
-        <Button text="Crear Cuenta"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"
-                onAction="#handleRegistro"/>
+                    <!-- Fecha de nacimiento -->
+                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label text="Fecha de nacimiento"
+                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpBirthdate"
+                                    prefWidth="210"
+                                    promptText="DD/MM/AAAA"
+                                    style="-fx-padding: 10; -fx-background-radius: 10; -fx-border-radius: 10;
+                                           -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
+                            <effect>
+                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
+                            </effect>
+                        </DatePicker>
+                    </VBox>
+                </GridPane>
 
-        <Button text="Volver al Login"
-                style="-fx-background-color: #757575; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"
-                onAction="#redirectToLogin"/>
-    </VBox>
-</ScrollPane>
+                <VBox spacing="5" alignment="CENTER" prefWidth="440">
+                    <Text text="La contraseña debe contener letras, números y símbolos"
+                          style="-fx-font-size: 11px; -fx-fill: #999999;"
+                          wrappingWidth="400"
+                          textAlignment="CENTER"/>
+                </VBox>
+
+                <Button text="Crear Cuenta"
+                        onAction="#handleRegistro"
+                        prefWidth="440" prefHeight="50"
+                        style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2);
+                               -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;
+                               -fx-background-radius: 10; -fx-cursor: hand;">
+                    <effect>
+                        <DropShadow radius="10" offsetY="4" color="#764ba244"/>
+                    </effect>
+                </Button>
+
+                <HBox spacing="8" alignment="CENTER">
+                    <Label text="¿Ya tienes cuenta?"
+                           style="-fx-font-size: 13px; -fx-text-fill: #666666;"/>
+                    <Hyperlink text="Inicia sesión"
+                               onAction="#redirectToLogin"
+                               style="-fx-text-fill: #764ba2; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                </HBox>
+
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+            </VBox>
+        </StackPane>
+    </ScrollPane>
+</StackPane>

@@ -6,73 +6,62 @@ import com.forum.service.ComunidadServiceImpl;
 import com.forum.repository.ComunidadRepositoryImpl;
 import com.forum.util.SessionManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
+import javafx.stage.Stage;
+
+import java.util.UUID;
 
 public class CrearComunidadController {
     @FXML
     private TextField txtNombre;
-    
+
     @FXML
     private TextArea taDescripcion;
-    
+
     @FXML
     private TextArea taReglas;
-    
+
     @FXML
     private ComboBox<String> cbCategoria;
-    
+
     @FXML
     private ComboBox<String> cbPrivacidad;
 
-    private final ComunidadService comunidadService = 
+    private final ComunidadService comunidadService =
             new ComunidadServiceImpl(new ComunidadRepositoryImpl());
 
     @FXML
     public void initialize() {
         configurarCombos();
-        configurarValidaciones();
     }
 
     private void configurarCombos() {
         // Configurar categorías disponibles
         cbCategoria.setItems(FXCollections.observableArrayList(
-            "Tecnología",
-            "Programación",
-            "Ciencia",
-            "Gaming",
-            "Arte",
-            "Música",
-            "Deportes",
-            "Otros"
+                "Tecnología",
+                "Programación",
+                "Ciencia",
+                "Gaming",
+                "Arte",
+                "Música",
+                "Deportes",
+                "Otros"
         ));
 
         // Configurar opciones de privacidad
         cbPrivacidad.setItems(FXCollections.observableArrayList(
-            "Pública",
-            "Privada",
-            "Restringida"
+                "Pública",
+                "Privada",
+                "Restringida"
         ));
 
         // Establecer valores por defecto
         cbCategoria.setValue("Otros");
         cbPrivacidad.setValue("Pública");
-    }
-
-    private void configurarValidaciones() {
-        // Validación del nombre
-        txtNombre.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                validarFormulario();
-            }
-        });
-
-        // Validación de la descripción
-        taDescripcion.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                validarFormulario();
-            }
-        });
     }
 
     @FXML
@@ -84,12 +73,18 @@ public class CrearComunidadController {
 
         try {
             Comunidad nuevaComunidad = new Comunidad();
+            nuevaComunidad.setId(UUID.randomUUID().toString());
             nuevaComunidad.setNombre(txtNombre.getText().trim());
             nuevaComunidad.setDescripcion(taDescripcion.getText().trim());
             nuevaComunidad.setReglas(taReglas.getText().trim());
             nuevaComunidad.setCategoria(cbCategoria.getValue());
             nuevaComunidad.setPrivacidad(cbPrivacidad.getValue());
-            nuevaComunidad.setCreadorId(SessionManager.getUsuarioActual().getId());
+
+            if (SessionManager.getUsuarioActual() != null) {
+                nuevaComunidad.setCreadorId(SessionManager.getUsuarioActual().getId());
+                nuevaComunidad.seguirComunidad(SessionManager.getUsuarioActual().getId());
+                nuevaComunidad.agregarModerador(SessionManager.getUsuarioActual().getId());
+            }
 
             comunidadService.crearComunidad(nuevaComunidad);
             mostrarExito("Comunidad creada exitosamente");
@@ -118,7 +113,10 @@ public class CrearComunidadController {
 
     private void volverAListaComunidades() {
         try {
-            MainController.cargarVista("comunidades");
+            Stage stage = (Stage) txtNombre.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/comunidades.fxml"));
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
         } catch (Exception e) {
             mostrarError("Error al volver a la lista de comunidades: " + e.getMessage());
         }

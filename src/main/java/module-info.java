@@ -4,6 +4,7 @@ module com.forum {
     requires com.google.gson;
     requires java.sql;
     requires static lombok;
+    requires java.prefs;
 
     opens com.forum to javafx.graphics;
     opens com.forum.controller to javafx.fxml;

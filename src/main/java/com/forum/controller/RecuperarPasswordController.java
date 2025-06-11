@@ -2,55 +2,37 @@ package com.forum.controller;
 
 import com.forum.service.UsuarioService;
 import com.forum.service.UsuarioServiceImpl;
+import com.forum.repository.UsuarioRepositoryImpl;
 import com.forum.util.ValidationUtil;
 import com.forum.util.EmailSender;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RecuperarPasswordController {
     @FXML
-    private VBox pasoUnoContainer;
-    
+    private TextField txtRecoveryEmail;
+
     @FXML
-    private VBox pasoDosContainer;
-    
+    private TextField txtVerificationCode;
+
     @FXML
-    private TextField txtEmail;
-    
+    private PasswordField pfNewPassword;
+
     @FXML
-    private TextField txtCodigo;
-    
-    @FXML
-    private PasswordField txtNewPassword;
-    
-    @FXML
-    private PasswordField txtConfirmPassword;
-    
-    @FXML
-    private Button btnSolicitar;
-    
-    @FXML
-    private Button btnVerificar;
-    
-    @FXML
-    private Button btnCambiar;
-    
-    @FXML
-    private Hyperlink linkVolver;
-    
-    @FXML
-    private Label lblTimer;
-    
-    @FXML
-    private HBox timerContainer;
+    private Button btnRestablecer;
 
     private final UsuarioService usuarioService;
     private String codigoVerificacion;
-    private static final int TIEMPO_ESPERA = 300; // 5 minutos en segundos
-    private java.util.Timer timer;
-    private int tiempoRestante;
+    private String emailActual;
+    private Timer timer;
+    private static final int TIEMPO_EXPIRACION = 300; // 5 minutos en segundos
 
     public RecuperarPasswordController() {
         this.usuarioService = new UsuarioServiceImpl(new UsuarioRepositoryImpl());
@@ -58,46 +40,16 @@ public class RecuperarPasswordController {
 
     @FXML
     public void initialize() {
-        configurarVisibilidad();
-        configurarValidaciones();
-        configurarEventos();
-    }
-
-    private void configurarVisibilidad() {
-        pasoUnoContainer.setVisible(true);
-        pasoDosContainer.setVisible(false);
-        timerContainer.setVisible(false);
-    }
-
-    private void configurarValidaciones() {
-        // Validación de email
-        txtEmail.textProperty().addListener((obs, old, nuevo) -> {
-            btnSolicitar.setDisable(!ValidationUtil.isValidEmail(nuevo));
-        });
-
-        // Validación de código
-        txtCodigo.textProperty().addListener((obs, old, nuevo) -> {
-            btnVerificar.setDisable(nuevo.length() != 6);
-        });
-
-        // Validaciones de contraseña
-        txtNewPassword.textProperty().addListener((obs, old, nuevo) -> {
-            validarPasswords();
-        });
-
-        txtConfirmPassword.textProperty().addListener((obs, old, nuevo) -> {
-            validarPasswords();
-        });
-    }
-
-    private void configurarEventos() {
-        linkVolver.setOnAction(event -> volverALogin());
+        // Configurar visibilidad inicial
+        txtVerificationCode.setVisible(false);
+        pfNewPassword.setVisible(false);
+        btnRestablecer.setVisible(false);
     }
 
     @FXML
-    private void handleSolicitarCodigo() {
-        String email = txtEmail.getText().trim();
-        
+    private void handleEnviarCodigo() {
+        String email = txtRecoveryEmail.getText().trim();
+
         if (!ValidationUtil.isValidEmail(email)) {
             mostrarError("Por favor, ingrese un email válido");
             return;
@@ -109,119 +61,81 @@ public class RecuperarPasswordController {
                 return;
             }
 
+            emailActual = email;
             codigoVerificacion = generarCodigo();
             EmailSender.enviarCodigoVerificacion(email, codigoVerificacion);
-            
-            mostrarPasoDos();
+
+            mostrarCamposVerificacion();
             iniciarTimer();
-            
+
+            mostrarInfo("Se ha enviado un código de verificación a tu email. Revisa la consola para ver el código.");
+
         } catch (Exception e) {
             mostrarError("Error al enviar el código: " + e.getMessage());
         }
     }
 
     @FXML
-    private void handleVerificarCodigo() {
-        String codigo = txtCodigo.getText().trim();
-        
+    private void handleRestablecer() {
+        String codigo = txtVerificationCode.getText().trim();
+        String nuevaPassword = pfNewPassword.getText();
+
         if (!codigo.equals(codigoVerificacion)) {
-            mostrarError("Código inválido");
+            mostrarError("Código de verificación incorrecto");
             return;
         }
 
-        if (tiempoRestante <= 0) {
-            mostrarError("El código ha expirado. Por favor, solicite uno nuevo");
-            return;
-        }
-
-        // Mostrar campos para nueva contraseña
-        habilitarCambioPassword();
-    }
-
-    @FXML
-    private void handleCambiarPassword() {
-        String newPassword = txtNewPassword.getText();
-        String confirmPassword = txtConfirmPassword.getText();
-
-        if (!validarNuevaPassword(newPassword, confirmPassword)) {
+        if (!ValidationUtil.isValidPassword(nuevaPassword)) {
+            mostrarError("La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales");
             return;
         }
 
         try {
-            usuarioService.actualizarPassword(txtEmail.getText().trim(), newPassword);
+            usuarioService.actualizarPassword(emailActual, nuevaPassword);
+            detenerTimer();
             mostrarExito("Contraseña actualizada exitosamente");
-            volverALogin();
+            handleVolverALogin();
         } catch (Exception e) {
             mostrarError("Error al actualizar la contraseña: " + e.getMessage());
         }
     }
 
-    private boolean validarNuevaPassword(String password, String confirmacion) {
-        if (!ValidationUtil.isValidPassword(password)) {
-            mostrarError("La contraseña no cumple con los requisitos mínimos");
-            return false;
+    @FXML
+    private void handleVolverALogin() {
+        try {
+            detenerTimer();
+            Stage stage = (Stage) txtRecoveryEmail.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            mostrarError("Error al volver al login: " + e.getMessage());
         }
-
-        if (!password.equals(confirmacion)) {
-            mostrarError("Las contraseñas no coinciden");
-            return false;
-        }
-
-        return true;
     }
 
-    private void validarPasswords() {
-        boolean passwordsValidas = !txtNewPassword.getText().isEmpty() && 
-                                 !txtConfirmPassword.getText().isEmpty() &&
-                                 txtNewPassword.getText().equals(txtConfirmPassword.getText()) &&
-                                 ValidationUtil.isValidPassword(txtNewPassword.getText());
-        
-        btnCambiar.setDisable(!passwordsValidas);
+    private void mostrarCamposVerificacion() {
+        txtRecoveryEmail.setDisable(true);
+        txtVerificationCode.setVisible(true);
+        pfNewPassword.setVisible(true);
+        btnRestablecer.setVisible(true);
     }
 
-    private void mostrarPasoDos() {
-        pasoUnoContainer.setVisible(false);
-        pasoDosContainer.setVisible(true);
-        timerContainer.setVisible(true);
-        btnCambiar.setVisible(false);
-        txtNewPassword.setVisible(false);
-        txtConfirmPassword.setVisible(false);
-    }
-
-    private void habilitarCambioPassword() {
-        txtCodigo.setDisable(true);
-        btnVerificar.setVisible(false);
-        txtNewPassword.setVisible(true);
-        txtConfirmPassword.setVisible(true);
-        btnCambiar.setVisible(true);
-        detenerTimer();
+    private String generarCodigo() {
+        return String.format("%06d", new java.util.Random().nextInt(999999));
     }
 
     private void iniciarTimer() {
-        tiempoRestante = TIEMPO_ESPERA;
-        if (timer != null) {
-            timer.cancel();
-        }
-        timer = new java.util.Timer();
-        timer.scheduleAtFixedRate(new java.util.TimerTask() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                javafx.application.Platform.runLater(() -> {
-                    if (tiempoRestante > 0) {
-                        actualizarTimer();
-                        tiempoRestante--;
-                    } else {
-                        detenerTimer();
-                    }
+                Platform.runLater(() -> {
+                    codigoVerificacion = null;
+                    mostrarError("El código de verificación ha expirado. Por favor, solicite uno nuevo.");
+                    resetearFormulario();
                 });
             }
-        }, 0, 1000);
-    }
-
-    private void actualizarTimer() {
-        int minutos = tiempoRestante / 60;
-        int segundos = tiempoRestante % 60;
-        lblTimer.setText(String.format("Tiempo restante: %02d:%02d", minutos, segundos));
+        }, TIEMPO_EXPIRACION * 1000);
     }
 
     private void detenerTimer() {
@@ -229,25 +143,30 @@ public class RecuperarPasswordController {
             timer.cancel();
             timer = null;
         }
-        timerContainer.setVisible(false);
     }
 
-    private String generarCodigo() {
-        return String.format("%06d", new java.util.Random().nextInt(999999));
-    }
-
-    private void volverALogin() {
-        try {
-            detenerTimer();
-            MainController.cargarVista("login");
-        } catch (Exception e) {
-            mostrarError("Error al volver al login: " + e.getMessage());
-        }
+    private void resetearFormulario() {
+        txtRecoveryEmail.setDisable(false);
+        txtRecoveryEmail.clear();
+        txtVerificationCode.setVisible(false);
+        txtVerificationCode.clear();
+        pfNewPassword.setVisible(false);
+        pfNewPassword.clear();
+        btnRestablecer.setVisible(false);
+        detenerTimer();
     }
 
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarInfo(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
