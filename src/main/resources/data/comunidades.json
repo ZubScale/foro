@@ -1,11 +1,4 @@
 [
-  {
-    "id": "com-001",
-    "nombre": "Programadores Java",
-    "descripcion": "Comunidad para desarrolladores Java",
-    "fechaCreacion": "2023-01-15",
-    "creador": "user-001",
-    "tags": ["tag-001", "tag-002"],
-    "miembros": ["user-001", "user-002"]
-  }
+  {"id": 1, "nombre": "Java", "descripcion": "Comunidad sobre Java"},
+  {"id": 2, "nombre": "Programación", "descripcion": "General programación"}
 ]

@@ -1,25 +1,23 @@
 package com.forum.util;
 
 import java.util.regex.Pattern;
-import java.time.LocalDate;
-import java.time.Period;
 
 public class ValidationUtil {
     // Patrones de expresiones regulares
-    private static final Pattern EMAIL_PATTERN = 
-        Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    
-    private static final Pattern USERNAME_PATTERN = 
-        Pattern.compile("^[a-zA-Z0-9_-]{3,20}$");
-    
-    private static final Pattern PASSWORD_PATTERN = 
-        Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
-    
-    private static final Pattern URL_PATTERN = 
-        Pattern.compile("^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$");
-    
-    private static final Pattern NOMBRE_PATTERN = 
-        Pattern.compile("^[\\p{L}\\s]{2,50}$");
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+
+    private static final Pattern USERNAME_PATTERN =
+            Pattern.compile("^[a-zA-Z0-9_-]{3,20}$");
+
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+
+    private static final Pattern URL_PATTERN =
+            Pattern.compile("^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$");
+
+    private static final Pattern NOMBRE_PATTERN =
+            Pattern.compile("^[\\p{L}\\s]{2,50}$");
 
     // Validaciones de texto
     public static boolean isValidEmail(String email) {
@@ -45,13 +43,6 @@ public class ValidationUtil {
     // Validaciones de longitud
     public static boolean isValidLength(String texto, int minLength, int maxLength) {
         return texto != null && texto.length() >= minLength && texto.length() <= maxLength;
-    }
-
-    // Validaciones de edad
-    public static boolean isValidAge(LocalDate fechaNacimiento, int edadMinima) {
-        if (fechaNacimiento == null) return false;
-        Period periodo = Period.between(fechaNacimiento, LocalDate.now());
-        return periodo.getYears() >= edadMinima;
     }
 
     // Validaciones numéricas
@@ -97,9 +88,9 @@ public class ValidationUtil {
             return new ValidationResult(false, "La contraseña es requerida");
         }
         if (!isValidPassword(password)) {
-            return new ValidationResult(false, 
-                "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, " +
-                "minúsculas, números y caracteres especiales");
+            return new ValidationResult(false,
+                    "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, " +
+                            "minúsculas, números y caracteres especiales");
         }
         return new ValidationResult(true, "");
     }
@@ -109,9 +100,9 @@ public class ValidationUtil {
             return new ValidationResult(false, "El nombre de usuario es requerido");
         }
         if (!isValidUsername(username)) {
-            return new ValidationResult(false, 
-                "El nombre de usuario debe tener entre 3 y 20 caracteres y solo puede " +
-                "contener letras, números, guiones y guiones bajos");
+            return new ValidationResult(false,
+                    "El nombre de usuario debe tener entre 3 y 20 caracteres y solo puede " +
+                            "contener letras, números, guiones y guiones bajos");
         }
         return new ValidationResult(true, "");
     }
@@ -136,7 +127,7 @@ public class ValidationUtil {
     }
 
     // Constructor privado para evitar instanciación
-    private void ValidationUtils() {
+    private ValidationUtil() {
         throw new AssertionError("La clase ValidationUtil no debe ser instanciada");
     }
 }

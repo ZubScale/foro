@@ -1,9 +1,1 @@
-[
-  {
-    "id": "user-001",
-    "nombre": "dev_juan",
-    "email": "juan@example.com",
-    "comunidades": ["com-001"],
-    "seguidores": ["user-002"]
-  }
-]
+[{"id":"8b5194e2-6533-4d52-a7dd-adc1ed493553","username":"123","nombre":"Hugo","password":"123","email":"hugo.buentellojr@gmail.com","comunidades":[],"seguidores":[],"isAdmin":false}]

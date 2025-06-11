@@ -94,21 +94,6 @@
                             </effect>
                         </TextField>
                     </VBox>
-
-                    <!-- Fecha de nacimiento -->
-                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                        <Label text="Fecha de nacimiento"
-                               style="-fx-font-size: 13px; -fx-text-fill: #555555; -fx-font-weight: bold;"/>
-                        <DatePicker fx:id="dpBirthdate"
-                                    prefWidth="210"
-                                    promptText="DD/MM/AAAA"
-                                    style="-fx-padding: 10; -fx-background-radius: 10; -fx-border-radius: 10;
-                                           -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-font-size: 14px;">
-                            <effect>
-                                <InnerShadow radius="3" offsetY="1" color="#00000011"/>
-                            </effect>
-                        </DatePicker>
-                    </VBox>
                 </GridPane>
 
                 <VBox spacing="5" alignment="CENTER" prefWidth="440">

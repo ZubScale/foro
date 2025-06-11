@@ -1,11 +1,15 @@
 [
   {
-    "id": "post-001",
-    "usuario": "user-001",
-    "contenido": "¿Cómo usar streams en Java?",
-    "fecha": "2023-07-20T14:00:00",
-    "calificaciones": ["tipo-calif-001"],
-    "tags": ["tag-001"],
-    "comunidad": "com-001"
+    "id": 100,
+    "titulo": "¿Cómo usar JavaFX?",
+    "contenido": "Explicación ...",
+    "usuarioId": 50,
+    "fecha": "2025-06-11",
+    "votos": 15,
+    "tags": ["Java", "JavaFX"],
+    "comentarios": [
+      {"usuarioId": 60, "texto": "Muy útil, gracias"},
+      {"usuarioId": 70, "texto": "Podrías ampliar más"}
+    ]
   }
 ]

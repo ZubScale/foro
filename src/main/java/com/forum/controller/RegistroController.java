@@ -6,13 +6,9 @@ import com.forum.service.UsuarioServiceImpl;
 import com.forum.repository.UsuarioRepositoryImpl;
 import com.forum.util.ValidationUtil;
 import com.forum.util.ValidationUtil.ValidationResult;
+import com.forum.util.SceneNavigator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import java.time.LocalDate;
 
 public class RegistroController {
     @FXML
@@ -27,11 +23,7 @@ public class RegistroController {
     @FXML
     private TextField txtFullName;
 
-    @FXML
-    private DatePicker dpBirthdate;
-
     private final UsuarioService usuarioService;
-    private static final int EDAD_MINIMA = 13;
 
     public RegistroController() {
         this.usuarioService = new UsuarioServiceImpl(new UsuarioRepositoryImpl());
@@ -40,7 +32,7 @@ public class RegistroController {
     @FXML
     public void initialize() {
         configurarValidacionesEnTiempoReal();
-        configurarDatePicker();
+        // Se eliminó la configuración del DatePicker
     }
 
     private void configurarValidacionesEnTiempoReal() {
@@ -90,17 +82,6 @@ public class RegistroController {
         });
     }
 
-    private void configurarDatePicker() {
-        dpBirthdate.setValue(LocalDate.now().minusYears(EDAD_MINIMA));
-        dpBirthdate.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                setDisable(empty || date.isAfter(LocalDate.now().minusYears(EDAD_MINIMA)));
-            }
-        });
-    }
-
     @FXML
     private void handleRegistro() {
         if (!validarFormularioCompleto()) {
@@ -131,7 +112,8 @@ public class RegistroController {
             usuario.setApellido(partesNombre[1]);
         }
 
-        usuario.setFechaNacimiento(dpBirthdate.getValue());
+        // Se eliminó la asignación de fecha de nacimiento
+
         return usuario;
     }
 
@@ -150,9 +132,8 @@ public class RegistroController {
         if (!ValidationUtil.isValidNombre(txtFullName.getText())) {
             isValid = false;
         }
-        if (!ValidationUtil.isValidAge(dpBirthdate.getValue(), EDAD_MINIMA)) {
-            isValid = false;
-        }
+
+        // Se eliminó la validación de edad
 
         return isValid;
     }
@@ -160,10 +141,7 @@ public class RegistroController {
     @FXML
     private void redirectToLogin() {
         try {
-            Stage stage = (Stage) txtUsername.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
+            SceneNavigator.navigateFrom(txtUsername, SceneNavigator.LOGIN_VIEW);
         } catch (Exception e) {
             mostrarError("Error al redirigir al login: " + e.getMessage());
         }

@@ -78,14 +78,18 @@
             <HBox spacing="8" alignment="CENTER">
                 <Label text="¿No tienes cuenta?"
                        style="-fx-font-size: 13px; -fx-text-fill: #666666;"/>
-                <Hyperlink text="Regístrate aquí"
+                <Hyperlink fx:id="linkRegistro"
                            onAction="#redirectToRegistro"
-                           style="-fx-text-fill: #764ba2; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                           style="-fx-text-fill: #764ba2; -fx-font-weight: bold; -fx-font-size: 13px;">
+                    Regístrate aquí
+                </Hyperlink>
             </HBox>
 
-            <Hyperlink text="¿Olvidaste tu contraseña?"
+            <Hyperlink fx:id="linkRecuperarPassword"
                        onAction="#redirectToRecuperarPassword"
-                       style="-fx-text-fill: #667eea; -fx-font-size: 13px;"/>
+                       style="-fx-text-fill: #667eea; -fx-font-size: 13px;">
+                ¿Olvidaste tu contraseña?
+            </Hyperlink>
         </VBox>
 
         <padding>

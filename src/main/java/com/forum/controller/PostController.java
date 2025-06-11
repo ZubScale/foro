@@ -13,56 +13,50 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PostController {
-    // Elementos para editar post
-    @FXML
-    private TextField txtTitulo;
-    @FXML
-    private TextArea txtContenido;
-    @FXML
-    private ListView<String> lvTagsDisponibles;
-    @FXML
-    private ListView<String> lvTagsSeleccionados;
 
-    // Elementos para vista detalle post
-    @FXML
-    private Text txtTituloPost;
-    @FXML
-    private Label lblAutor;
-    @FXML
-    private Label lblFecha;
-    @FXML
-    private Label lblVotos;
-    @FXML
-    private TextArea txtContenidoPost;
-    @FXML
-    private ListView<Comentario> lstComentarios;
-    @FXML
-    private TextArea txtNuevoComentario;
+    // Elementos para edición de post
+    @FXML private TextField txtTitulo;
+    @FXML private TextArea txtContenido;
+    @FXML private ListView<String> lvTagsDisponibles;
+    @FXML private ListView<String> lvTagsSeleccionados;
+
+    // Elementos para detalle de post
+    @FXML private Text txtTituloPost;
+    @FXML private Label lblAutor;
+    @FXML private Label lblFecha;
+    @FXML private Label lblVotos;
+    @FXML private TextArea txtContenidoPost;
+    @FXML private ListView<Comentario> lstComentarios;
+    @FXML private TextArea txtNuevoComentario;
 
     private final PostService postService = new PostServiceImpl(new PostRepositoryImpl());
 
     @FXML
     private void initialize() {
         cargarTagsDisponibles();
+
+        // Solo cargar detalles si está en vista de detalle
         if (txtTituloPost != null) {
             cargarDetallePost();
         }
     }
 
     private void cargarDetallePost() {
-        Post postActual = SessionManager.getPostActual();
-        if (postActual != null) {
-            txtTituloPost.setText(postActual.getTitulo());
-            lblAutor.setText("Autor: " + postActual.getUsuarioId());
-            lblFecha.setText("Fecha: " + postActual.getFecha());
-            lblVotos.setText("Votos: " + postActual.getVotos());
-            txtContenidoPost.setText(postActual.getContenido());
-            lstComentarios.getItems().setAll(
-                    postActual.getComentarios() != null ? postActual.getComentarios() : new ArrayList<>()
-            );
-        }
+        Optional<Post> optionalPost = Optional.ofNullable(SessionManager.getPostActual());
+        if (optionalPost.isEmpty()) return;
+
+        Post post = optionalPost.get();
+        txtTituloPost.setText(post.getTitulo());
+        lblAutor.setText("Autor: " + post.getUsuarioId());
+        lblFecha.setText("Fecha: " + post.getFecha());
+        lblVotos.setText("Votos: " + post.getVotos());
+        txtContenidoPost.setText(post.getContenido());
+
+        List<Comentario> comentarios = Optional.ofNullable(post.getComentarios()).orElseGet(ArrayList::new);
+        lstComentarios.getItems().setAll(comentarios);
     }
 
     @FXML
@@ -72,16 +66,18 @@ public class PostController {
             return;
         }
 
-        Post postActual = SessionManager.getPostActual();
-        if (postActual != null) {
-            postActual.setTitulo(txtTitulo.getText());
-            postActual.setContenido(txtContenido.getText());
-            postActual.setTags(new ArrayList<>(lvTagsSeleccionados.getItems()));
-            postService.actualizarPost(postActual);
-            NavigationUtil.cambiarVista(txtTitulo, "/view/main.fxml");
-        } else {
-            mostrarAlerta("Error", "No se pudo guardar el post, inténtalo nuevamente.");
+        Post post = SessionManager.getPostActual();
+        if (post == null) {
+            mostrarAlerta("Error", "No se encontró el post a editar.");
+            return;
         }
+
+        post.setTitulo(txtTitulo.getText());
+        post.setContenido(txtContenido.getText());
+        post.setTags(new ArrayList<>(lvTagsSeleccionados.getItems()));
+
+        postService.actualizarPost(post);
+        NavigationUtil.cambiarVista(txtTitulo, "/view/main.fxml");
     }
 
     @FXML
@@ -91,41 +87,40 @@ public class PostController {
 
     @FXML
     private void votarPositivo() {
-        Post post = SessionManager.getPostActual();
-        if (post != null) {
-            post.setVotos(post.getVotos() + 1);
-            actualizarVotos(post);
-        }
+        modificarVotos(1);
     }
 
     @FXML
     private void votarNegativo() {
+        modificarVotos(-1);
+    }
+
+    private void modificarVotos(int valor) {
         Post post = SessionManager.getPostActual();
-        if (post != null && post.getVotos() > 0) {
-            post.setVotos(post.getVotos() - 1);
-            actualizarVotos(post);
-        }
+        if (post == null) return;
+
+        int nuevosVotos = Math.max(0, post.getVotos() + valor);
+        post.setVotos(nuevosVotos);
+        postService.actualizarPost(post);
+        lblVotos.setText("Votos: " + nuevosVotos);
     }
 
     @FXML
     private void agregarComentario() {
-        if (!txtNuevoComentario.getText().isBlank() && SessionManager.getPostActual() != null) {
-            Comentario nuevo = new Comentario(
-                    SessionManager.getUsuarioActual().getId(),
-                    txtNuevoComentario.getText()
-            );
-            postService.agregarComentario(
-                    SessionManager.getPostActual().getId(),
-                    nuevo
-            );
-            txtNuevoComentario.clear();
-            cargarDetallePost();
-        }
-    }
+        String textoComentario = txtNuevoComentario.getText();
+        if (textoComentario.isBlank()) return;
 
-    private void actualizarVotos(Post post) {
-        postService.actualizarPost(post);
-        lblVotos.setText("Votos: " + post.getVotos());
+        Post post = SessionManager.getPostActual();
+        if (post == null || SessionManager.getUsuarioActual() == null) return;
+
+        Comentario comentario = new Comentario(
+                SessionManager.getUsuarioActual().getId(),
+                textoComentario
+        );
+
+        postService.agregarComentario(post.getId(), comentario);
+        txtNuevoComentario.clear();
+        cargarDetallePost(); // Recarga comentarios
     }
 
     private void cargarTagsDisponibles() {
@@ -134,23 +129,24 @@ public class PostController {
 
     @FXML
     private void agregarTag() {
-        String seleccionado = lvTagsDisponibles.getSelectionModel().getSelectedItem();
-        if (seleccionado != null && !lvTagsSeleccionados.getItems().contains(seleccionado)) {
-            lvTagsSeleccionados.getItems().add(seleccionado);
+        String tag = lvTagsDisponibles.getSelectionModel().getSelectedItem();
+        if (tag != null && !lvTagsSeleccionados.getItems().contains(tag)) {
+            lvTagsSeleccionados.getItems().add(tag);
         }
     }
 
     @FXML
     private void quitarTag() {
-        String seleccionado = lvTagsSeleccionados.getSelectionModel().getSelectedItem();
-        if (seleccionado != null) {
-            lvTagsSeleccionados.getItems().remove(seleccionado);
+        String tag = lvTagsSeleccionados.getSelectionModel().getSelectedItem();
+        if (tag != null) {
+            lvTagsSeleccionados.getItems().remove(tag);
         }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }

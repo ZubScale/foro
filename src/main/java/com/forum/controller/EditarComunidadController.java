@@ -4,167 +4,113 @@ import com.forum.model.Comunidad;
 import com.forum.service.ComunidadService;
 import com.forum.service.ComunidadServiceImpl;
 import com.forum.repository.ComunidadRepositoryImpl;
+import com.forum.util.JsonUtil;
+import com.forum.util.SceneNavigator;
 import com.forum.util.SessionManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EditarComunidadController {
+    // Componentes para comunidades.fxml
     @FXML
-    private TextField txtNombre;
-
+    private TableView<Comunidad> tblComunidades;
     @FXML
-    private TextArea taDescripcion;
+    private TextField txtBuscarComunidad;
 
+    // Componentes para comunidad_detalle.fxml
     @FXML
-    private TextArea taReglas;
-
+    private TableView<?> tblPosts;
     @FXML
-    private ComboBox<String> cbCategorias;
+    private ListView<?> lstTemas;
 
-    private Comunidad comunidadActual;
-    private final ComunidadService comunidadService = 
+    private final ComunidadService comunidadService =
             new ComunidadServiceImpl(new ComunidadRepositoryImpl());
+
+    private static final String COMUNIDADES_JSON_PATH = "data/comunidades.json";
 
     @FXML
     public void initialize() {
-        configurarCategorias();
-        cargarDatosComunidad();
-        configurarValidaciones();
-    }
-
-    private void configurarCategorias() {
-        cbCategorias.setItems(FXCollections.observableArrayList(
-            "Tecnología",
-            "Programación",
-            "Ciencia",
-            "Gaming",
-            "Arte",
-            "Música",
-            "Deportes",
-            "Otros"
-        ));
-    }
-
-    private void cargarDatosComunidad() {
-        try {
-            // Obtener la comunidad seleccionada de la sesión
-            comunidadActual = SessionManager.getComunidadActual();
-            if (comunidadActual == null) {
-                mostrarError("No se encontró la comunidad a editar");
-                cancelarEdicion();
-                return;
-            }
-
-            // Cargar los datos en los campos
-            txtNombre.setText(comunidadActual.getNombre());
-            taDescripcion.setText(comunidadActual.getDescripcion());
-            taReglas.setText(comunidadActual.getReglas());
-            cbCategorias.setValue(comunidadActual.getCategoria());
-
-            // Verificar permisos
-            if (!tienePermisosEdicion()) {
-                deshabilitarEdicion();
-                mostrarError("No tienes permisos para editar esta comunidad");
-                cancelarEdicion();
-            }
-
-        } catch (Exception e) {
-            mostrarError("Error al cargar los datos de la comunidad: " + e.getMessage());
-            cancelarEdicion();
+        Comunidad nueva = (Comunidad) SceneNavigator.getSharedData("nuevaComunidad");
+        if (nueva != null) {
+            agregarComunidad(nueva);
+            SceneNavigator.clearSharedData();
+        } else {
+            cargarComunidades();
         }
     }
 
-    private void configurarValidaciones() {
-        // Validación del nombre
-        txtNombre.textProperty().addListener((obs, oldVal, newVal) -> {
-            validarFormulario();
-        });
-
-        // Validación de la descripción
-        taDescripcion.textProperty().addListener((obs, oldVal, newVal) -> {
-            validarFormulario();
-        });
+    private void cargarComunidades() {
+        List<Comunidad> comunidades = JsonUtil.cargarDatos(COMUNIDADES_JSON_PATH, Comunidad.class);
+        if (comunidades.isEmpty()) {
+            comunidades = comunidadService.listarTodas();
+            JsonUtil.guardarDatos(COMUNIDADES_JSON_PATH, comunidades);
+        }
+        tblComunidades.getItems().setAll(comunidades);
     }
 
     @FXML
-    private void guardarCambiosComunidad() {
-        if (!validarFormulario()) {
-            mostrarError("Por favor, complete todos los campos requeridos correctamente");
-            return;
-        }
+    private void buscarComunidad() {
+        String textoBusqueda = txtBuscarComunidad.getText().toLowerCase().trim();
+        List<Comunidad> comunidades = JsonUtil.cargarDatos(COMUNIDADES_JSON_PATH, Comunidad.class);
 
-        try {
-            // Actualizar datos de la comunidad
-            comunidadActual.setNombre(txtNombre.getText().trim());
-            comunidadActual.setDescripcion(taDescripcion.getText().trim());
-            comunidadActual.setReglas(taReglas.getText().trim());
-            comunidadActual.setCategoria(cbCategorias.getValue());
-
-            // Guardar cambios
-            comunidadService.actualizarComunidad(comunidadActual);
-            
-            mostrarExito("Cambios guardados exitosamente");
-            volverADetalleComunidad();
-
-        } catch (Exception e) {
-            mostrarError("Error al guardar los cambios: " + e.getMessage());
+        if (textoBusqueda.isEmpty()) {
+            tblComunidades.getItems().setAll(comunidades);
+        } else {
+            tblComunidades.getItems().setAll(
+                    comunidades.stream()
+                            .filter(comunidad -> comunidad.getNombre() != null &&
+                                    comunidad.getNombre().toLowerCase().contains(textoBusqueda))
+                            .collect(Collectors.toList())
+            );
         }
     }
 
     @FXML
-    private void cancelarEdicion() {
-        volverADetalleComunidad();
+    private void mostrarCrearPost() {
+        SceneNavigator.navigateTo(SceneNavigator.CREAR_POST_VIEW);
     }
 
-    private boolean validarFormulario() {
-        if (txtNombre.getText() == null || txtNombre.getText().trim().isEmpty()) {
-            return false;
-        }
-        if (taDescripcion.getText() == null || taDescripcion.getText().trim().isEmpty()) {
-            return false;
-        }
-        if (cbCategorias.getValue() == null) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean tienePermisosEdicion() {
-        // Verificar si el usuario actual es el creador o moderador
-        return SessionManager.getUsuarioActual() != null &&
-               (SessionManager.getUsuarioActual().getId().equals(comunidadActual.getCreadorId()) ||
-                comunidadActual.getModeradores().contains(SessionManager.getUsuarioActual().getId()));
-    }
-
-    private void deshabilitarEdicion() {
-        txtNombre.setDisable(true);
-        taDescripcion.setDisable(true);
-        taReglas.setDisable(true);
-        cbCategorias.setDisable(true);
-    }
-
-    private void volverADetalleComunidad() {
-        try {
-            MainController.cargarVista("comunidad_detalle");
-        } catch (Exception e) {
-            mostrarError("Error al volver al detalle de la comunidad: " + e.getMessage());
+    @FXML
+    private void editarComunidad() {
+        Comunidad seleccionada = tblComunidades.getSelectionModel().getSelectedItem();
+        if (seleccionada != null) {
+            SessionManager.login(SessionManager.getUsuarioActual());
+            SceneNavigator.setSharedData("comunidadSeleccionada", seleccionada);
+            SceneNavigator.navigateTo(SceneNavigator.EDITAR_COMUNIDAD_VIEW);
+        } else {
+            mostrarAlerta("Debe seleccionar una comunidad para editar.");
         }
     }
 
-    private void mostrarError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    @FXML
+    private void volverAComunidades() {
+        SceneNavigator.navigateTo(SceneNavigator.COMUNIDADES_VIEW);
     }
 
-    private void mostrarExito(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    @FXML
+    private void redirectToCrearComunidad() {
+        SceneNavigator.navigateTo(SceneNavigator.CREAR_COMUNIDAD_VIEW);
+    }
+
+    public void agregarComunidad(Comunidad comunidad) {
+        List<Comunidad> comunidades = JsonUtil.cargarDatos(COMUNIDADES_JSON_PATH, Comunidad.class);
+        comunidades.add(comunidad);
+        JsonUtil.guardarDatos(COMUNIDADES_JSON_PATH, comunidades);
+        cargarComunidades();
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Información");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

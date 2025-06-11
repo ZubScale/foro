@@ -4,15 +4,12 @@ import com.forum.model.Usuario;
 import com.forum.repository.UsuarioRepository;
 import com.forum.util.EmailSender;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepo;
     private static final Pattern EMAIL_REGEX = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    private static final int EDAD_MINIMA = 13;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepo) {
         this.usuarioRepo = usuarioRepo;
@@ -104,8 +101,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Validar password
         validarPassword(usuario.getPassword());
 
-        // Validar edad
-        validarEdad(usuario.getFechaNacimiento());
+        // **Se removió la validación de edad y fecha de nacimiento**
     }
 
     private void validarPassword(String password) {
@@ -133,17 +129,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         if (!EMAIL_REGEX.matcher(email).matches()) {
             throw new IllegalArgumentException("Formato de email inválido");
-        }
-    }
-
-    private void validarEdad(LocalDate fechaNacimiento) {
-        if (fechaNacimiento == null) {
-            throw new IllegalArgumentException("La fecha de nacimiento es requerida");
-        }
-
-        Period edad = Period.between(fechaNacimiento, LocalDate.now());
-        if (edad.getYears() < EDAD_MINIMA) {
-            throw new IllegalArgumentException("Debes tener al menos " + EDAD_MINIMA + " años para registrarte");
         }
     }
 }

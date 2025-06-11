@@ -5,13 +5,10 @@ import com.forum.service.UsuarioServiceImpl;
 import com.forum.repository.UsuarioRepositoryImpl;
 import com.forum.util.ValidationUtil;
 import com.forum.util.EmailSender;
+import com.forum.util.SceneNavigator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -104,10 +101,7 @@ public class RecuperarPasswordController {
     private void handleVolverALogin() {
         try {
             detenerTimer();
-            Stage stage = (Stage) txtRecoveryEmail.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
+            SceneNavigator.navigateFrom(txtRecoveryEmail, SceneNavigator.LOGIN_VIEW);
         } catch (Exception e) {
             mostrarError("Error al volver al login: " + e.getMessage());
         }

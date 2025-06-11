@@ -2,15 +2,11 @@ package com.forum.controller;
 
 import com.forum.model.Usuario;
 import com.forum.util.SessionManager;
+import com.forum.util.SceneNavigator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.application.Platform;
-import java.io.IOException;
 import java.util.Optional;
 
 public class MainController {
@@ -71,37 +67,37 @@ public class MainController {
 
     @FXML
     private void redirectToNotificaciones() {
-        cargarVistaLocal("/view/notificaciones.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.NOTIFICACIONES_VIEW);
     }
 
     @FXML
     private void redirectToMensajes() {
-        cargarVistaLocal("/view/mensajes.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.MENSAJES_VIEW);
     }
 
     @FXML
     private void redirectToPerfil() {
-        cargarVistaLocal("/view/perfil_usuario.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.PERFIL_VIEW);
     }
 
     @FXML
     private void redirectToComunidades() {
-        cargarVistaLocal("/view/comunidades.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.COMUNIDADES_VIEW);
     }
 
     @FXML
     private void redirectToPosts() {
-        cargarVistaLocal("/view/posts.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.POSTS_VIEW);
     }
 
     @FXML
     private void redirectToTags() {
-        cargarVistaLocal("/view/tags.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.TAGS_VIEW);
     }
 
     @FXML
     private void redirectToCategorias() {
-        cargarVistaLocal("/view/categorias.fxml");
+        SceneNavigator.navigateFrom(lvTendencias, SceneNavigator.CATEGORIAS_VIEW);
     }
 
     @FXML
@@ -113,50 +109,7 @@ public class MainController {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             SessionManager.logout();
-            cargarVistaLogin();
-        }
-    }
-
-    public static void cargarVista(String fxmlPath) {
-        try {
-            if (instance != null && instance.contentArea != null) {
-                FXMLLoader loader = new FXMLLoader(MainController.class.getResource(fxmlPath));
-                Parent contenido = loader.load();
-                instance.contentArea.getChildren().setAll(contenido);
-            } else {
-                // Si no hay instancia de MainController, cargar en nueva ventana
-                FXMLLoader loader = new FXMLLoader(MainController.class.getResource(fxmlPath));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.centerOnScreen();
-                stage.show();
-            }
-        } catch (IOException e) {
-            mostrarError("Error al cargar la vista: " + e.getMessage());
-        }
-    }
-
-    private void cargarVistaLocal(String rutaFxml) {
-        try {
-            Stage stage = (Stage) lvTendencias.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource(rutaFxml));
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
-        } catch (IOException e) {
-            mostrarError("Error al cargar la vista: " + e.getMessage());
-        }
-    }
-
-    private void cargarVistaLogin() {
-        try {
-            Stage stage = (Stage) lvTendencias.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setMaximized(false);
-            stage.centerOnScreen();
-        } catch (IOException e) {
-            mostrarError("Error al cargar el login: " + e.getMessage());
+            SceneNavigator.navigateToLogin();
         }
     }
 
@@ -168,15 +121,11 @@ public class MainController {
         return alert.showAndWait();
     }
 
-    private static void mostrarError(String mensaje) {
+    private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
-    }
-
-    public static MainController getInstance() {
-        return instance;
     }
 }

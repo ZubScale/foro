@@ -4,6 +4,8 @@ import com.forum.model.Comunidad;
 import com.forum.service.ComunidadService;
 import com.forum.service.ComunidadServiceImpl;
 import com.forum.repository.ComunidadRepositoryImpl;
+import com.forum.util.JsonUtil;
+import com.forum.util.SceneNavigator;
 import com.forum.util.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ComunidadController {
@@ -29,23 +32,32 @@ public class ComunidadController {
     private final ComunidadService comunidadService =
             new ComunidadServiceImpl(new ComunidadRepositoryImpl());
 
+    private static final String COMUNIDADES_JSON_PATH = "data/comunidades.json";
+
     @FXML
     public void initialize() {
         cargarComunidades();
     }
 
     private void cargarComunidades() {
-        tblComunidades.getItems().setAll(comunidadService.listarTodas());
+        List<Comunidad> comunidades = JsonUtil.cargarDatos(COMUNIDADES_JSON_PATH, Comunidad.class);
+        if (comunidades.isEmpty()) {
+            comunidades = comunidadService.listarTodas();
+            JsonUtil.guardarDatos(COMUNIDADES_JSON_PATH, comunidades);
+        }
+        tblComunidades.getItems().setAll(comunidades);
     }
 
     @FXML
     private void buscarComunidad() {
         String textoBusqueda = txtBuscarComunidad.getText().toLowerCase().trim();
+        List<Comunidad> comunidades = JsonUtil.cargarDatos(COMUNIDADES_JSON_PATH, Comunidad.class);
+
         if (textoBusqueda.isEmpty()) {
-            cargarComunidades();
+            tblComunidades.getItems().setAll(comunidades);
         } else {
             tblComunidades.getItems().setAll(
-                    comunidadService.listarTodas().stream()
+                    comunidades.stream()
                             .filter(comunidad -> comunidad.getNombre() != null &&
                                     comunidad.getNombre().toLowerCase().contains(textoBusqueda))
                             .collect(Collectors.toList())
@@ -55,16 +67,16 @@ public class ComunidadController {
 
     @FXML
     private void mostrarCrearPost() {
-        MainController.cargarVista("crear_post");
+        SceneNavigator.navigateTo(SceneNavigator.CREAR_POST_VIEW);
     }
 
     @FXML
     private void editarComunidad() {
         Comunidad seleccionada = tblComunidades.getSelectionModel().getSelectedItem();
         if (seleccionada != null) {
-            // Guardar la comunidad seleccionada en una sesión o pasarla a la vista siguiente
             SessionManager.login(SessionManager.getUsuarioActual());
-            MainController.cargarVista("editar_comunidad");
+            SceneNavigator.setSharedData("comunidadSeleccionada", seleccionada);
+            SceneNavigator.navigateTo(SceneNavigator.EDITAR_COMUNIDAD_VIEW);
         } else {
             mostrarAlerta("Debe seleccionar una comunidad para editar.");
         }
@@ -72,12 +84,12 @@ public class ComunidadController {
 
     @FXML
     private void volverAComunidades() {
-        MainController.cargarVista("comunidades");
+        SceneNavigator.navigateTo(SceneNavigator.COMUNIDADES_VIEW);
     }
 
     @FXML
     private void redirectToCrearComunidad() {
-        MainController.cargarVista("crear_comunidad");
+        SceneNavigator.navigateTo(SceneNavigator.CREAR_COMUNIDAD_VIEW);
     }
 
     private void mostrarAlerta(String mensaje) {

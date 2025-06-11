@@ -41,6 +41,8 @@ public class SceneNavigator {
     public static final String NOTIFICACIONES_VIEW = "/view/notificaciones.fxml";
     public static final String TAGS_VIEW = "/view/tags.fxml";
     public static final String CATEGORIAS_VIEW = "/view/categorias.fxml";
+    public static final String CREAR_CATEGORIA_VIEW = "/view/crear_categoria.fxml";
+    public static final String EDITAR_CATEGORIA_VIEW = "/view/editar_categoria.fxml";
 
     /**
      * Establece el stage principal de la aplicación
